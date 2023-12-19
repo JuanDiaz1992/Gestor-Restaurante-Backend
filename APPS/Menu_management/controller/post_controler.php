@@ -92,9 +92,9 @@ class PostController{
             }
         }
         if ($allElementsSaved) {
-            $return->fncResponse("Menú creado correctamente", 200);
+            $return->fncResponse("Menú creado correctamente", 200, "Elemento agregado correctamente");
         } else {
-            $return->fncResponse("Error al crear el menú", 404);
+            $return->fncResponse("Error al crear el menú", 404, "Error al agregar el elemento");
         }
     }
 
