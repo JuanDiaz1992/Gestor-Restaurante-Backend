@@ -3,8 +3,8 @@
 
 require_once "gestionRestauranteSettings/Connection.php";
 class PostModel{
-    //Creación de Usuario nuevo 
-    static public function postRecordMenuyModel($table,$date){   
+    //Creación de Usuario nuevo
+    static public function postRecordMenuyModel($table,$date){
         $sql = "INSERT INTO $table (date) VALUES (:date)";
         $stmt = Connection::connect();
         $stmtFull =  $stmt->prepare($sql);
@@ -12,7 +12,6 @@ class PostModel{
         $stmtFull->execute();
         $rowCount = $stmtFull->rowCount();
         $lastInsertId = $stmt->lastInsertId(); //Retorna el último id creado
-        error_log($lastInsertId);
         if(isset($rowCount)){
             $data = [
                 "id"=>$lastInsertId,
@@ -26,8 +25,9 @@ class PostModel{
             return $data;
         }
 
+
     }
-    static public function postRecordAllMenusModel($table,$idMenu,$idItem,$date){   
+    static public function postRecordAllMenusModel($table,$idMenu,$idItem,$date){
         $sql = "INSERT INTO $table (menu,contenido, date, state) VALUES (:menu,:contenido,:date, :state)";
         $stateNumber = 1;
         $stmt = Connection::connect()->prepare($sql);
@@ -42,13 +42,12 @@ class PostModel{
         }else{
             return 400;
         }
-
     }
+
 
     static public function createItemMenuModel($table,$name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$idProfile_user,$amount){
         $sql = "INSERT INTO $table (name, description, price, picture, menu_item_type, idProfile_user, amount) VALUES (:name, :description, :price, :picture, :menu_item_type, :idProfile_user, :amount)";
         $stmt = Connection::connect()->prepare($sql);
-        
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':description', $description);
         $stmt->bindParam(':price', $price);
@@ -65,11 +64,8 @@ class PostModel{
         }
     }
 
+
     static public function changeStateModel($table,$idMenu,$id,$state){
-        error_log($table);
-        error_log($idMenu);
-        error_log($id);
-        error_log($state);
         $sql = "UPDATE $table SET state = :state WHERE menu = :menu AND id = :id";
         $stmt = Connection::connect()->prepare($sql);
         $stmt->bindParam(':state',$state,  PDO::PARAM_STR);
@@ -84,6 +80,34 @@ class PostModel{
         }
     }
 
+
+    //Solicitudes delete
+    static public function deleteItemFromMenuBdModel($table,$id){
+        $sql = "DELETE FROM $table WHERE id = :id ";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $rowCount = $stmt->rowCount();
+        if ($rowCount > 0) {
+            return 200;
+        } else {
+            return 404;
+        }
+    }
+
+
+    static public function deleteMenufromBdModel($table,$idMenu){
+        $sql = "DELETE FROM $table WHERE id = :id";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->bindParam(":id", $idMenu, PDO::PARAM_INT);
+        $stmt->execute();
+        $rowCount = $stmt->rowCount();
+        if ($rowCount > 0) {
+            return 200;
+        } else {
+            return 404;
+        }
+    }
 
 }
 

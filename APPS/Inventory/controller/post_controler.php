@@ -15,10 +15,9 @@ class PostController{
                 $response = PostModel::postRecordInventoryModel($table, $purchaseValue, $reason, $observations, $idProfile_user,$date);
                 $return = new PostController();
                 if ($response == 404){
-                    $return -> fncResponse($response,404);
-    
+                    $return -> fncResponse($response,404, "No se pudo realizar el registro, valide los datos e intentelo de nuevo");
                 }elseif($response == 200){
-                    $return -> fncResponse($response,200);
+                    $return -> fncResponse($response,200, "Registro realizado correctamente");
                 }
             }else{
                 $json = array(
@@ -30,37 +29,44 @@ class PostController{
             }
     }
 
-   
+
+    static public function deleteItemInvetoryController($table,$id){
+        $response = PostModel::deleteItemInvetoryModel($table,$id);
+        $return = new PostController();
+        if ($response == 404){
+            $return -> fncResponse($response,404,"No se pudo eliminar el registro");
+        }elseif($response == 200){
+            $return -> fncResponse($response,200,"Registro eliminado correctamente");
+        }
+    }
+
 
     //Respuesta del controlador:
-    public function fncResponse($response,$status){ //Metodo usado para dar respuestas básicas
+    public function fncResponse($response,$status,$message){ //Metodo usado para dar respuestas básicas
         if (!empty($response) && $status === 200) {
             $json = array(
                 'status' => $status,
                 'results' => 'success',
                 'registered'=>true,
                 'response'=>$response,
-                'message' => "Registro ingresado correctamente" 
+                'message' => $message
             );
         }else if($status === 409){
             $json = array(
                 'registered'=>false,
                 'status' => $status,
                 'results' => 'Not Found',
-                'message' => "El elemento ya existe"
+                'message' => $message
             );
         }else{
             $json = array(
                 'registered'=>false,
-                'status' => 404,
+                'status' => $status,
                 'results' => 'Not Found',
-                'message' => "No se pudo realizar el registro, valide los datos e intentelo de nuevo"
+                'message' => $message
             );
         }
-
         echo json_encode($json,http_response_code($json['status']));
-
-    
     }
 
 

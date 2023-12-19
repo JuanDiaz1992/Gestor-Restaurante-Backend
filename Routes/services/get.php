@@ -7,13 +7,9 @@ function badResponse(){
         'status' => 404,
         'results' => 'Not Found'
     );
-
     echo json_encode($json,http_response_code($json['status']));
 
 }
-
-
-
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];
     if (strpos($authorizationHeader, 'Token') === 0) {
@@ -28,9 +24,8 @@ if (isset($_SERVER['HTTP_MODULE'])) {
 }else{
     badResponse();
 }
-
 if($module == 'user'){
-    require_once "APPS/User/views/get.php";  
+    require_once "APPS/User/views/get.php";
 }else if($module == 'business'){
     require_once "APPS/Business/views/get.php";
 }else if($module == 'inventory'){

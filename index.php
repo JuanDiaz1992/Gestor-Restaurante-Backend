@@ -11,10 +11,10 @@ $os_info = php_uname('s');
 ini_set('display_errors',1);
 ini_set('logs_errors',1);
 if(strpos($os_info, 'Windows')!== false){
-    ini_set('error_log','F:/xampp/htdocs/gestion_restaurante/Error/php_error_log');
+    ini_set('error_log','F:/xampp/htdocs/restaurante/Error/php_error_log');
 
 }else if(strpos($os_info, 'Linux')!== false){
-    ini_set('error_log','home/Documentos/htdocs/gestion_restaurante/Error/php_error_log');
+    ini_set('error_log','home/Documentos/htdocs/restaurante/Error/php_error_log');
 
 }
 

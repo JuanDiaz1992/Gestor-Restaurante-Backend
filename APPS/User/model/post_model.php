@@ -26,7 +26,6 @@ class PostModel{
             $rowCount = $stmt->rowCount();
             return 200;
         }
-
     }
 
     //Este metodo es utilizado para consultar contraseña con el has
@@ -37,11 +36,9 @@ class PostModel{
         $stmt->bindParam(":username", $user, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_CLASS);
-
         // Verificar si se encontró un usuario con el nombre proporcionado
         if (count($result) > 0) {
             $hashedPassword = $result[0]->password;
-
             // Verificar si la contraseña ingresada coincide con el hash de la contraseña almacenada
             if (password_verify($password, $hashedPassword)) {
                 // La contraseña es válida
@@ -55,7 +52,6 @@ class PostModel{
             return false;
         }
     }
-
 
 
     static public function PostDataModify($id,$name,$photo,$type_user)
@@ -79,6 +75,7 @@ class PostModel{
         }
     }
 
+
     static public function PostChagePassword($id,$password){
         $sql = "UPDATE profile_user SET password = :password WHERE id = :id";
         $stmt = Connection::connect()->prepare($sql);
@@ -94,17 +91,20 @@ class PostModel{
     }
 
 
-//Este metodo es utilizado para consultar contraseña sin el has, 
-//se debe usar en caso de que no exista un usuario Admin y sea necesario crear un Admin desde la bd
-
-    // static public function postDataconsultUser($table,$user,$password){
-    //     $sql = "SELECT * FROM $table WHERE username = :username AND password = :password";
-    //     $stmt = Connection::connect()->prepare($sql);
-    //     $stmt->bindParam(":username", $user, PDO::PARAM_STR);
-    //     $stmt->bindParam(":password", $password, PDO::PARAM_STR);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_CLASS);
-    // }
+    //Solicitudes delete
+    //Metodo para eliminar usuario de la bd
+    static public function deleteUserModel($id){
+        $sql = "DELETE FROM profile_user WHERE id = :id ";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $rowCount = $stmt->rowCount();
+        if ($rowCount > 0) {
+            return 200;
+        } else {
+            return 404;
+        }
+    }
 }
 
 

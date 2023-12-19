@@ -1,7 +1,0 @@
-[19-Dec-2023 03:59:25 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\gestion_restaurante\APPS\Menu_management\controller\get_controler.php on line 30
-[19-Dec-2023 03:59:25 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\gestion_restaurante\APPS\Menu_management\controller\get_controler.php on line 38
-[19-Dec-2023 03:59:39 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\gestion_restaurante\Routes\services\get.php on line 32
-[19-Dec-2023 03:59:39 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\gestion_restaurante\Routes\services\get.php on line 34
-[19-Dec-2023 03:59:39 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\gestion_restaurante\Routes\services\get.php on line 36
-[19-Dec-2023 03:59:39 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\gestion_restaurante\Routes\services\get.php on line 38
-[19-Dec-2023 04:04:54 Europe/Berlin] 159

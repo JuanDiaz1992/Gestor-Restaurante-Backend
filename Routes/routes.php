@@ -11,7 +11,6 @@ if (count($routesArray) == 0) {
 }
 else if(count($routesArray) >= 1 && isset($_SERVER['REQUEST_METHOD'])){
     //Cuando se hacen peticiones a la Api
-
     //GET
     if ($_SERVER['REQUEST_METHOD'] == "GET"){
         include "services/get.php";
@@ -19,10 +18,6 @@ else if(count($routesArray) >= 1 && isset($_SERVER['REQUEST_METHOD'])){
     //POST
     else if ($_SERVER['REQUEST_METHOD'] == "POST") {
         include "services/post.php";
-    }
-    //DELETE
-    else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
-        include "services/delete.php";
     }
 }
 return;

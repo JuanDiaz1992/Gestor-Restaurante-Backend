@@ -4,10 +4,11 @@
 require_once "APPS/Inventory/controller/post_controler.php";
 $response = new PostController();
 
-if(isset($data["record_buys"])){
-    session_id($token);
-    session_start();
-    if($token && $_SESSION["type_user"] === 1){
+session_id($token);
+session_start();
+if($token && $_SESSION["type_user"] === 1){
+
+    if(isset($data["record_buys"])){
         $table = "buys";
         $response -> postRecordInventoryController(
             $table,
@@ -17,11 +18,12 @@ if(isset($data["record_buys"])){
             $data["idProfile_user"],
             $data["dateTime"]
         );
-    }else{
-        badResponse();
+    }else if(isset($data["delete_buy_inventory"])){
+        $table = "buys";
+        $response -> deleteItemInvetoryController($table,$data["idItem"]);
     }
-
-}else{
+}
+else{
     badResponse();
 }
 
