@@ -7,11 +7,11 @@ $response = new PostController();
 if(isset($data["login_request"])){
     $table = "profile_user";
     $response -> postDataconsultUser($table, $data["username"], $data["password"]);
-    
+
 }else if(isset($_POST["newUser_request"])){
     session_id($token);
     session_start();
-    if($token && $_SESSION["type_user"] === 'Admin'){
+    if($token && $_SESSION["type_user"] === 1){
         $img = isset($_FILES['photo'])? $_FILES['photo'] : '';
         $response ->postControllerCreateUser(
             $_POST['id_business'],
@@ -25,11 +25,10 @@ if(isset($data["login_request"])){
     }
 
 
-        
 }else if(isset($_REQUEST["edit_user_request"])){
     session_id($token);
     session_start();
-    if($token && $_SESSION["type_user"] === 'Admin'){
+    if($token && $_SESSION["type_user"] === 1){
         $img = isset($_FILES['photo'])? $_FILES['photo'] : '';
         $response ->postControllerModify(
             $_POST['id'],
@@ -44,13 +43,13 @@ if(isset($data["login_request"])){
 }else if(isset($data['changePasswordUser'])){
     session_id($token);
     session_start();
-    if($token && $_SESSION["type_user"] === 'Admin'){
+    if($token && $_SESSION["type_user"] === 1){
         $response ->changePassword(
             $data['id'],
             $data['password'],
             $data['confirmPassword'],
         );
-    }    
+    }
 }else{
     badResponse();
 }

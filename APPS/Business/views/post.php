@@ -15,7 +15,6 @@ if(isset($_POST["business_create_info"])){
         $_POST["officeHours"],
         $img,
     );
-    
 
 }
 

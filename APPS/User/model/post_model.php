@@ -3,9 +3,9 @@
 
 require_once "gestionRestauranteSettings/Connection.php";
 class PostModel{
-    //Creación de Usuario nuevo 
+    //Creación de Usuario nuevo
     static public function postDataCreateUser($id_business,$userName, $password, $name, $photo, $type_user)
-    {   
+    {
         $sql = "SELECT * FROM profile_user WHERE username = :username";
         $stmt = Connection::connect()->prepare($sql);
         $stmt->bindParam(":username", $userName, PDO::PARAM_STR);
@@ -16,7 +16,6 @@ class PostModel{
         }else{
             $sql = "INSERT INTO profile_user (username, password, name, photo, type_user, id_negocio) VALUES (:username, :password, :name, :photo, :type_user, :id_negocio)";
             $stmt = Connection::connect()->prepare($sql);
-            
             $stmt->bindParam(':username', $userName);
             $stmt->bindParam(':password', $password);
             $stmt->bindParam(':name', $name);
@@ -78,13 +77,11 @@ class PostModel{
         }else{
             return 404;
         }
-        
     }
 
     static public function PostChagePassword($id,$password){
         $sql = "UPDATE profile_user SET password = :password WHERE id = :id";
         $stmt = Connection::connect()->prepare($sql);
-        
         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
         $stmt->bindParam(":password", $password, PDO::PARAM_STR);
         $stmt->execute();

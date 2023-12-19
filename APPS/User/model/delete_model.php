@@ -17,13 +17,11 @@ class DeleteModel{
         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
         $stmt->execute();
         $rowCount = $stmt->rowCount();
-
         if ($rowCount > 0) {
             return 200;
         } else {
             return 404;
         }
-        
     }
 }
 

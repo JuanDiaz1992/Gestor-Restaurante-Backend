@@ -1,9 +1,12 @@
 <?php
 
 require_once "gestionRestauranteSettings/cors.php";
+require "vendor/autoload.php";
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+
 $os_info = php_uname('s');
-
-
 //Manejo de errores
 ini_set('display_errors',1);
 ini_set('logs_errors',1);

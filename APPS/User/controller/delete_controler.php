@@ -46,8 +46,6 @@ class DeleteController{
             );
         }
         echo json_encode($json,http_response_code($json['status']));
-
-    
     }
 }
 

@@ -4,14 +4,12 @@ require_once "APPS/Menu_management/model/delete_model.php";
 
 
 class DeleteController{
-
     static public function deleteItemFromMenuBd($table,$id){
         $response = DeleteModel::deleteItemFromMenuBdModel($table,$id);
         $return = new DeleteController();
         $return -> deleteIfromSesion($id);
         $return -> fncResponse($response);
     }
-
     static public function deleteMenufromBd($table,$idMenu){
         $response = DeleteModel::deleteMenufromBdModel($table,$idMenu);
         $return = new DeleteController();
@@ -24,7 +22,6 @@ class DeleteController{
             $return -> fncResponse($result);
         }
     }
-    
     static public function deleteIfromSesion($idItemMenu){
         $return = new DeleteController();
         $tempArray = array();
@@ -36,11 +33,7 @@ class DeleteController{
         unset($_SESSION["menu_temp"]);
         $_SESSION["menu_temp"] = $tempArray;
         return 200;
-
-
     }
-
-
     //Respuesta del controlador:
     public function fncResponse($response){
         if ($response === 200) {
@@ -56,8 +49,6 @@ class DeleteController{
             );
         }
         echo json_encode($json,http_response_code($json['status']));
-
-    
     }
 }
 

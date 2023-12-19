@@ -1,10 +1,6 @@
 <?php
-
 require_once "APPS/Inventory/model/delete_model.php";
-
-
 class DeleteController{
-
     static public function deleteItemInvetoryController($table,$id){
         $response = DeleteModel::deleteItemInvetoryModel($table,$id);
         $return = new DeleteController();
@@ -27,6 +23,4 @@ class DeleteController{
         echo json_encode($json,http_response_code($json['status']));
     }
 }
-
-
 ?>

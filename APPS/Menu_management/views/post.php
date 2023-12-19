@@ -6,7 +6,7 @@ $response = new PostController();
 session_id($token);
 session_start();
 
-if($token && $_SESSION["type_user"] === 'Admin'){
+if($token && $_SESSION["type_user"] === 1){
     if (isset($data["menu_temp"])) {
         $response -> createMenuTemp($data["item"]);
     }else if(isset($_POST["new_item_menu"])){

@@ -1,9 +1,4 @@
 <?php
-
-
-
-
-
 $routesArray = explode("/",$_SERVER['REQUEST_URI']);
 $routesArray = array_filter($routesArray);
 
@@ -28,20 +23,7 @@ else if(count($routesArray) >= 1 && isset($_SERVER['REQUEST_METHOD'])){
     //DELETE
     else if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
         include "services/delete.php";
-
     }
-
 }
-
-
-
-
 return;
-
-
-
-
-
-
-
 ?>

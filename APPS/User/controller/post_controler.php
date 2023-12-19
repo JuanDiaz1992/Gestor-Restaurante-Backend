@@ -8,12 +8,10 @@ class PostController{
 
     /************************Metodo para crear usuarios nuevos *********************/
     static public function postControllerCreateUser($id_business,$userName, $password, $confirmPassword, $name, $photo, $type_user){
-    
         if (!preg_match('/^[a-zA-Z0-9]+$/', $userName) || //En este if se validan caracteres especiales
             !preg_match('/^[a-zA-Z0-9]+$/', $password) ||
             !preg_match('/^[a-zA-Z\s]+$/', $name) ||
-            !preg_match('/^[a-zA-Z0-9]+$/', $confirmPassword) ||
-            !preg_match('/^[a-zA-Z0-9]+$/', $type_user)) {
+            !preg_match('/^[a-zA-Z0-9]+$/', $confirmPassword)) {
                 $json = array(
                     'status' => 404,
                     'is_logged_in' => false,
@@ -22,7 +20,6 @@ class PostController{
                 echo json_encode($json, http_response_code($json['status']));
                 exit;
             }
-
             if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta 
                 $json = array(
                     'status' => 404,
@@ -32,39 +29,31 @@ class PostController{
                 echo json_encode($json, http_response_code($json['status']));
                 exit;
             }
-            
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
                 $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
-                
                 if (!is_dir($carpetaDestino)) {
                     mkdir($carpetaDestino, 0777, true);
                 }
-                
                 $rutaArchivoRelativa = 'files/user_profile/' . $userName .'/'. $nombreArchivo;
-                
                 move_uploaded_file($photo['tmp_name'], $rutaArchivo);
             }else{
                 $rutaArchivoRelativa = "files/images/sin_imagen.webp";
             }
-
-            
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //Aquí se genera un hash para la contraseña
             $response = PostModel::postDataCreateUser($id_business,$userName, $hashedPassword, $name, $rutaArchivoRelativa, $type_user);
             $return = new PostController();
-            if ($response == 404){
-                $return -> fncResponse($response,404);
-
+            if ($response == 409){
+                $return -> fncResponse($response,409);
             }elseif($response == 200){
                 $return -> fncResponse($response,200);
             }
-            
 
 
 
     }//***********************Este metodo es usado para el inicio de sessión***************/
-    static public function postDataconsultUser($table,$username,$password){ 
+    static public function postDataconsultUser($table,$username,$password){
 
         if (!preg_match('/^[a-zA-Z0-9]+$/', $username) || !preg_match('/^[a-zA-Z0-9]+$/', $password)) { //Si el usuario o contraseña incluyen caracteres, no permite continúar
             $json = array(
@@ -94,23 +83,18 @@ class PostController{
                 echo json_encode($json, http_response_code($json['status']));
                 exit;
             }
-           
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
                 $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
-                
                 if (!is_dir($carpetaDestino)) {
                     mkdir($carpetaDestino, 0777, true);
                 }
-                
                 $rutaArchivoRelativa = 'files/user_profile/' . $userName .'/'. $nombreArchivo;
-                
                 move_uploaded_file($photo['tmp_name'], $rutaArchivo);
             }else{
                 $rutaArchivoRelativa = false;
             }
-
             $response = PostModel::PostDataModify($id, $name, $rutaArchivoRelativa, $type_user);
             $return = new PostController();
             if ($response == 409){
@@ -119,7 +103,6 @@ class PostController{
             }elseif($response == 200){
                 $return -> fncResponse($response,200);
             }
-          
     }
     static public function changePassword($id,$password,$confirmPassword){
         if (!preg_match('/^[a-zA-Z0-9]+$/', $password) ||
@@ -162,7 +145,7 @@ class PostController{
             $_SESSION["type_user"] = $response[0]->type_user;
             $json = array( //Se devuelve el json con la información necesaria para inicia la sesión en el front
                 'status' => 200,
-                'is_logged_in' => true, 
+                'is_logged_in' => true,
                 'token' => $new_id,
                 'username'=> $_SESSION["username"],
                 "message"=> "Usuario correcto",
@@ -175,13 +158,12 @@ class PostController{
             $json = array( //Si la contraseña o el usuario son incorrectos, se devuelve la respuesta 
                 'status' => 404,
                 'is_logged_in' => false,
-                'message' => 'User or password incorrect' 
+                'message' => 'User or password incorrect'
             );
         }
         echo json_encode($json,http_response_code($json['status']));
 
-    } 
-    
+    }
     //Respuesta del controlador:
     public function fncResponse($response,$status){ //Metodo usado para dar respuestas básicas
         if (!empty($response) && $status === 200) {
@@ -189,7 +171,7 @@ class PostController{
                 'status' => $status,
                 'results' => 'success',
                 'registered'=>true,
-                'message' => "Registro ingresado correctamente" 
+                'message' => "Registro ingresado correctamente"
             );
         }else if($status === 409){
             $json = array(
@@ -206,10 +188,7 @@ class PostController{
                 'message' => "No se pudo realizar el registro, valide los datos e intentelo de nuevo"
             );
         }
-
         echo json_encode($json,http_response_code($json['status']));
-
-    
     }
 
 

@@ -8,12 +8,11 @@ if(isset($data["logout_request"])){
 elseif(isset($data["delete_user"])){
     session_id($token);
     session_start();
-    if($token && $_SESSION["type_user"] === 'Admin'){
+    if($token && $_SESSION["type_user"] === 1){
         $response -> deleteUserController($data["id"],);
     }else{
         badResponse();
     }
-    
 }
 
 

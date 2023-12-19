@@ -7,7 +7,7 @@ $response = new PostController();
 if(isset($data["record_buys"])){
     session_id($token);
     session_start();
-    if($token && $_SESSION["type_user"] === 'Admin'){
+    if($token && $_SESSION["type_user"] === 1){
         $table = "buys";
         $response -> postRecordInventoryController(
             $table,
