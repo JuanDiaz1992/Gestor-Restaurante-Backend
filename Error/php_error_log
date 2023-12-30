@@ -52,3 +52,18 @@ Stack trace:
   thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
 [19-Dec-2023 06:35:09 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
 [19-Dec-2023 06:35:09 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
+[19-Dec-2023 06:38:14 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
+[19-Dec-2023 06:38:14 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
+[19-Dec-2023 06:38:25 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
+[19-Dec-2023 06:38:25 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
+[19-Dec-2023 06:41:15 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2023-12-19' for key 'unique_date' in F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php:12
+Stack trace:
+#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php(12): PDOStatement->execute()
+#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(59): PostModel::postRecordMenuyModel('menu', '2023-12-19')
+#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(27): PostController::createMenu('2023-12-19')
+#3 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
+#4 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
+#5 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
+#6 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
+#7 {main}
+  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php on line 12
