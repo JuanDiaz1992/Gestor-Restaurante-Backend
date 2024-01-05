@@ -1,69 +1,146 @@
-[19-Dec-2023 05:47:37 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
-[19-Dec-2023 05:47:37 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
-[19-Dec-2023 06:30:20 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function PostController::fncResponse(), 2 passed in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 95 and exactly 3 expected in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php:155
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(95): PostController->fncResponse('Men\xC3\xBA creado co...', 200)
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(30): PostController::editMenu('all_menus', Array, 176, '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#6 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
-[19-Dec-2023 06:30:22 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function PostController::fncResponse(), 2 passed in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 95 and exactly 3 expected in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php:155
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(95): PostController->fncResponse('Men\xC3\xBA creado co...', 200)
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(30): PostController::editMenu('all_menus', Array, 176, '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#6 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
-[19-Dec-2023 06:30:27 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function PostController::fncResponse(), 2 passed in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 95 and exactly 3 expected in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php:155
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(95): PostController->fncResponse('Men\xC3\xBA creado co...', 200)
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(30): PostController::editMenu('all_menus', Array, 176, '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#6 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
-[19-Dec-2023 06:30:36 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function PostController::fncResponse(), 2 passed in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 95 and exactly 3 expected in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php:155
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(95): PostController->fncResponse('Men\xC3\xBA creado co...', 200)
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(30): PostController::editMenu('all_menus', Array, 176, '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#6 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
-[19-Dec-2023 06:31:07 Europe/Berlin] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function PostController::fncResponse(), 2 passed in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 95 and exactly 3 expected in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php:155
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(95): PostController->fncResponse('Men\xC3\xBA creado co...', 200)
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(30): PostController::editMenu('all_menus', Array, 176, '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#6 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php on line 155
-[19-Dec-2023 06:35:09 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
-[19-Dec-2023 06:35:09 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
-[19-Dec-2023 06:38:14 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
-[19-Dec-2023 06:38:14 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
-[19-Dec-2023 06:38:25 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 30
-[19-Dec-2023 06:38:25 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 38
-[19-Dec-2023 06:41:15 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '2023-12-19' for key 'unique_date' in F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php:12
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php(12): PDOStatement->execute()
-#1 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(59): PostModel::postRecordMenuyModel('menu', '2023-12-19')
-#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(27): PostController::createMenu('2023-12-19')
-#3 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#6 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#7 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\model\post_model.php on line 12
+[05-Jan-2024 06:34:14 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 18
+    [price] => 6000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 157
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:34:28 Europe/Berlin] Array
+(
+    [name] => Quatro Personal
+    [description] => 
+    [amount] => 25
+    [price] => 3000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 149
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:34:57 Europe/Berlin] Array
+(
+    [name] => Quatro Personal
+    [description] => 
+    [amount] => 25
+    [price] => 4000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 149
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:35:05 Europe/Berlin] Array
+(
+    [name] => Quatro Personal
+    [description] => 
+    [amount] => 25
+    [price] => 3000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 149
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:35:20 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 18
+    [price] => 6000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 157
+    [beforePicture] => files/images/MenuItems/R.jpeg.webp
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:35:29 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 18
+    [price] => 6000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 157
+    [beforePicture] => files/images/MenuItems/OIP.jpeg.webp
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:36:19 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 25
+    [price] => 5000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 158
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:36:26 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 21
+    [price] => 5000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 158
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:36:31 Europe/Berlin] Array
+(
+    [name] => Coca cola litro y medio
+    [description] => 
+    [amount] => 21
+    [price] => 6000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 158
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:36:38 Europe/Berlin] Array
+(
+    [name] => Coca-cola litro y medio
+    [description] => 
+    [amount] => 21
+    [price] => 6000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 158
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:36:57 Europe/Berlin] Array
+(
+    [name] => Coca-cola mini plástico
+    [description] => 
+    [amount] => 30
+    [price] => 3000
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 120
+    [edit_item_menu] => true
+)
+
+[05-Jan-2024 06:37:07 Europe/Berlin] Array
+(
+    [name] => Coca-cola mini vidrio
+    [description] => 
+    [amount] => 15
+    [price] => 1500
+    [menu_item_type] => soft_drinks
+    [idProfile_user] => 15
+    [idItem] => 116
+    [edit_item_menu] => true
+)
+

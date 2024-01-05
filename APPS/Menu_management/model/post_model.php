@@ -79,7 +79,31 @@ class PostModel{
             return 404;
         }
     }
-
+    static public function editItemMenuModel($POST,$table,$rutaArchivoRelativa){
+        error_log(print_r($POST,true));
+        if ($rutaArchivoRelativa!=="") {
+            $sql = "UPDATE $table SET name = :name, description = :description, price = :price, picture = :picture, amount = :amount  WHERE id = :id";
+        }
+        else{
+            $sql = "UPDATE $table SET name = :name, description = :description, price = :price, amount = :amount  WHERE id = :id";
+        }
+        $stmt = Connection::connect()->prepare($sql);
+        if ($rutaArchivoRelativa!=="") {
+            $stmt->bindParam(':picture',$rutaArchivoRelativa,  PDO::PARAM_STR);
+        }
+        $stmt->bindParam(':name',$POST["name"],  PDO::PARAM_STR);
+        $stmt->bindParam(':description',$POST["description"],  PDO::PARAM_STR);
+        $stmt->bindParam(':price',$POST["price"],  PDO::PARAM_STR);
+        $stmt->bindParam(':amount',$POST["amount"],  PDO::PARAM_STR);
+        $stmt->bindParam(':id', $POST["idItem"],  PDO::PARAM_STR);
+        $stmt->execute();
+        $rowCount = $stmt->rowCount();
+        if ($rowCount > 0){
+            return 200;
+        }else{
+            return 404;
+        }
+    }
 
     //Solicitudes delete
     static public function deleteItemFromMenuBdModel($table,$id){

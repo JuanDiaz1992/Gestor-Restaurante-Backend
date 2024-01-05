@@ -97,7 +97,35 @@ class PostController{
             $return->fncResponse("Error al crear el menú", 404, "Error al agregar el elemento");
         }
     }
-
+    static public function editItemMenuController($POST,$FILES = ""){
+        $return = new PostController();
+        $rutaArchivoRelativa = "";
+        if ($POST["name"] ==="" || $POST["amount"] ==="" || $POST["price"] ==="") {
+            $return->fncResponse("",400,"Datos incompletos");
+        }else{
+            if (isset($POST["beforePicture"])) {
+                if($POST["beforePicture"] !== "files/images/sin_imagen.webp"){
+                    unlink($POST["beforePicture"]); //Elimina el archivo anterior de la imagen
+                }
+                $photo = $FILES['photo'];
+                $carpetaDestino = "files/images/MenuItems";
+                $nombreArchivo = $photo['name'];
+                $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
+                if (!is_dir($carpetaDestino)) {
+                    mkdir($carpetaDestino, 0777, true);
+                }
+                $rutaArchivoRelativa = 'files/images/MenuItems/' . $nombreArchivo;
+                move_uploaded_file($photo['tmp_name'], $rutaArchivo);
+            }
+            $table="items_menu";
+            $response = PostModel::editItemMenuModel($POST,$table,$rutaArchivoRelativa);
+            if ($response == 400){
+                $return -> fncResponse($response,400,"Error");
+            }elseif($response == 200){
+                $return -> fncResponse($response,200,"Registro editado correctamente correctamente");
+            }
+        }
+    }
 
     static public function changeState($table,$idMEnu,$id,$state){
         $response = PostModel::changeStateModel($table,$idMEnu,$id,$state);

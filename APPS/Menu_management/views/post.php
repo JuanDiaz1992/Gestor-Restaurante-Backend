@@ -31,10 +31,16 @@ if($token && $_SESSION["type_user"] === 1){
     }else if(isset($data["supend_item_menu"])){
         $table = "all_menus";
         $response -> changeState($table,$data["idMenu"],$data["id"],$data["state"]);
-    }else if(isset($data["delete_item_data"])){
+    }
+    else if(isset($_POST["edit_item_menu"])){
+        $response ->editItemMenuController($_POST,$_FILES);
+    }
+
+
+    //Solicitudes delete
+    else if(isset($data["delete_item_data"])){
         $response -> deleteItemTemporal($data["idItemMenu"]);
     }
-    //Solicitudes delete
     else if(isset($data["delete_item_bd_from_menu"])) {
         $table = "items_menu";
         $response -> deleteItemFromMenuBd($table, $data["item"]);

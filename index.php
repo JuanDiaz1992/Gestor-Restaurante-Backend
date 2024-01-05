@@ -14,7 +14,7 @@ if(strpos($os_info, 'Windows')!== false){
     ini_set('error_log','F:/xampp/htdocs/restaurante/Error/php_error_log');
 
 }else if(strpos($os_info, 'Linux')!== false){
-    ini_set('error_log','home/Documentos/htdocs/restaurante/Error/php_error_log');
+    ini_set('error_log','/opt/lampp/htdocs/restaurante/Error/php_error_log');
 
 }
 
