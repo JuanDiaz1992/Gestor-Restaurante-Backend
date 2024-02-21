@@ -21,7 +21,7 @@ class GetModel{
                 if($key > 0){
                     $linkToText .= "AND ".$value." = :".$value." ";                }
             }
-        }                
+        }
         $sql = "SELECT $select FROM $table WHERE $linkToArray[0] = :$linkToArray[0] $linkToText";
         $stmt = Connection::connect()->prepare($sql);
         foreach($linkToArray as $key => $value){
@@ -37,6 +37,20 @@ class GetModel{
         $sql = "SELECT $select FROM $table WHERE $linkTo = :$linkTo";
         $stmt = Connection::connect()->prepare($sql);
         $stmt->bindParam(":$linkTo", $equalTo);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
+    }
+    static public function getItemsNoIncludeOnMenuModel($table, $select, $linkTo, $equalTo){
+        $sql = "SELECT *
+                FROM $table
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM all_menus
+                    WHERE all_menus.contenido = $table.id
+                    AND all_menus.menu = :menu
+                )";
+        $stmt = Connection::connect()->prepare($sql);
+        $stmt->bindParam(':menu', $equalTo);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_CLASS);
     }

@@ -80,7 +80,7 @@ class PostModel{
         }
     }
     static public function editItemMenuModel($POST,$table,$rutaArchivoRelativa){
-        error_log(print_r($POST,true));
+
         if ($rutaArchivoRelativa!=="") {
             $sql = "UPDATE $table SET name = :name, description = :description, price = :price, picture = :picture, amount = :amount  WHERE id = :id";
         }

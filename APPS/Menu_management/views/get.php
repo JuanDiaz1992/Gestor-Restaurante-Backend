@@ -2,9 +2,16 @@
 require_once "APPS/Menu_management/controller/get_controler.php";
 $response = new GetController();
 
+function getIdMenu($date){
+    $response = new GetController();
+    $idMEnu = $response -> getIdMenu("menu","*","date",$date);
+    return $idMEnu;
+}
 if ($table === "get_menu_index") {
+    $idMEnu = getIdMenu($_GET["equalTo"]);
     $table = "items_menu";
-    $response ->getDataWithJoinFromIndex($table,$select,$_GET["linkTo"],$_GET["equalTo"]);
+    $response ->getDataWithJoinFromIndex($table,$select,"menu",$idMEnu);
+
 }else if($table === "menu" && isset($_GET["linkTo"]) && isset($_GET["equalTo"])){
     $response -> getDataFilter($table ,$select,$_GET["linkTo"],$_GET["equalTo"]);
 }else {
@@ -20,9 +27,14 @@ if ($table === "get_menu_index") {
             }
             else if($table =='items_menu_temp'){
                 $response ->getDataBySession();
-            }else if($table == 'items_menuJoin'){
+            }else if($table == 'menu_from_creator_menu'){
+                $idMEnu = $idMEnu = getIdMenu($_GET["equalTo"]);
                 $table = "items_menu";
-                $response ->getDataWithJoinFromAdmin("$table",$select,$_GET["linkTo"],$_GET["equalTo"]);
+                $response ->getDataWithJoinFromAdmin("$table",$select,"menu",$idMEnu);
+            }else if($table =='items_menu_consult'){
+                $idMEnu = getIdMenu($_GET["equalTo"]);
+                $table = "items_menu";
+                $response ->getItemsNoIncludeOnMenuController("$table",$select,"menu",$idMEnu);
             }
             else{
                 //Aqui validamos si la consulta es de tipo where, sino es una consulta a toda la tabla

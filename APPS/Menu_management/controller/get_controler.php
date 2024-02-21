@@ -17,6 +17,16 @@ class GetController{
         $return -> fncResponse($response);
 
     }
+    static public function getIdMenu($table,$select,$linkTo,$equalTo){
+        $response = GetModel::getDataFilter($table,$select,$linkTo,$equalTo);
+        return $response[0]->id;
+    }
+
+    static public function getItemsNoIncludeOnMenuController($table,$select,$linkTo,$equalTo){
+        $response = GetModel::getItemsNoIncludeOnMenuModel($table,$select,$linkTo,$equalTo);
+        $return = new GetController();
+        $return -> fncResponse($response);
+    }
 
     static public function getDataFilter($table,$select,$linkTo,$equalTo){
         $response = GetModel::getDataFilter($table,$select,$linkTo,$equalTo);

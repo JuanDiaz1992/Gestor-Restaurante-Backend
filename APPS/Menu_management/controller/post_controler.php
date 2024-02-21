@@ -81,19 +81,12 @@ class PostController{
     }
 
 
-    static public function editMenu($table,$ids,$idMEnu,$dateTime){
+    static public function editMenu($table,$id,$idMEnu,$dateTime){
         $return = new PostController();
-        $allElementsSaved = true; // Variable de registro
-        foreach ($ids as $id){
-            $responseItem = PostModel::postRecordAllMenusModel($table,$idMEnu,$id,$dateTime);
-            if($responseItem !== 200){
-                $allElementsSaved = false;
-                break;
-            }
-        }
-        if ($allElementsSaved) {
+        $responseItem = PostModel::postRecordAllMenusModel($table,$idMEnu,$id,$dateTime);
+        if($responseItem === 200){
             $return->fncResponse("Menú creado correctamente", 200, "Elemento agregado correctamente");
-        } else {
+        }else {
             $return->fncResponse("Error al crear el menú", 404, "Error al agregar el elemento");
         }
     }
@@ -139,10 +132,13 @@ class PostController{
 
 
     //Solicitudes delete
-    static public function deleteItemFromMenuBd($table,$id){
+    static public function deleteItemFromMenuBd($table,$id,$picture = ""){
         $response = PostModel::deleteItemFromMenuBdModel($table,$id);
         $return = new PostController();
         if($response === 200){
+            if($picture !== "files/images/sin_imagen.webp" && $picture !=="" ){
+                unlink($picture); //Elimina el archivo anterior de la imagen
+            }
             $return -> fncResponse($response,200,"Item eliminado");
         }else{
             $return -> fncResponse("",200,"Error al eliminar el item");
