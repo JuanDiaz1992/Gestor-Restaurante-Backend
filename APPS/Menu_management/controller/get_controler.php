@@ -1,41 +1,19 @@
 <?php
 
 
-require_once "APPS/Menu_management/model/get_model.php";
+require_once "APPS/Model/ModelSentences.php";
+require_once "APPS/Responses.php";
 
 class GetController{
-    static public function getData($table,$select){
-        $response = GetModel::getData($table,$select);
-        $return = new GetController();
-        $return -> fncResponse($response);
-
-
+    static public function getData($table,$select,$linkTo = null ,$equalTo = null){
+        $response = new ModelSentences();
+        if ($linkTo === null) {
+            $result = $response->getDataSimpleConsult($table,$select);
+        }else{
+            $result = $response->getDataSimpleConsult($table,$select,$linkTo,$equalTo);
+        }
+        Responses::response($result);
     }
-    static public function getDataFilterSimple($table,$select,$linkTo,$equalTo){
-        $response = GetModel::getDataFilterSimpleModel($table,$select,$linkTo,$equalTo);
-        $return = new GetController();
-        $return -> fncResponse($response);
-
-    }
-    static public function getIdMenu($table,$select,$linkTo,$equalTo){
-        $response = GetModel::getDataFilter($table,$select,$linkTo,$equalTo);
-        return $response[0]->id;
-    }
-
-    static public function getItemsNoIncludeOnMenuController($table,$select,$linkTo,$equalTo){
-        $response = GetModel::getItemsNoIncludeOnMenuModel($table,$select,$linkTo,$equalTo);
-        $return = new GetController();
-        $return -> fncResponse($response);
-    }
-
-    static public function getDataFilter($table,$select,$linkTo,$equalTo){
-        $response = GetModel::getDataFilter($table,$select,$linkTo,$equalTo);
-        $return = new GetController();
-        $return -> fncResponse($response);
-
-    }
-
-
     static public function getDataBySession(){
         $response = $_SESSION["menu_temp"];
         // Arreglos para cada tipo de menú
@@ -70,44 +48,39 @@ class GetController{
         // Registra el array ordenado en el archivo de registro de errores
         // error_log(print_r($orderedResponse, true));
         $return = new GetController();
-        $return -> fncResponse($orderedResponse);
+        Responses::response($orderedResponse);
     }
-
-    
-    static public function getDataWithJoinFromIndex($table, $select, $linkTo, $equalTo){
-        $response = GetModel::getDataWithJoin($table, $select, $linkTo, $equalTo);
-        $softDrinks= GetModel::getDataFilterSimpleModel("items_menu","*","menu_item_type","soft_drinks");
-        $resultado = array_merge($response, $softDrinks);
-        $return = new GetController();
-        $return->fncResponse($resultado);
+    static public function getItemsNoIncludeOnMenuController($table,$select,$linkTo,$equalTo){
+        $response = new ModelSentences(
+            "SELECT *
+            FROM $table
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM all_menus
+                WHERE all_menus.contenido = $table.id
+                AND all_menus.$linkTo = :$linkTo)", $linkTo, $equalTo);
+        $result = $response->getDataSql();
+        Responses::response($result);
     }
-    static public function getDataWithJoinFromAdmin($table, $select, $linkTo, $equalTo){
-        $response = GetModel::getDataWithJoin($table, $select, $linkTo, $equalTo);
-        $return = new GetController();
-        $return->fncResponse($response);
-    }
-    
-
-    
-    //Respuesta del controlador:
-    public function fncResponse($response, $consultUsers=false){
-        if (!empty($response)&&$consultUsers ===false) {
-            $json = array(
-                'status' => 200,
-                'total' => count($response),
-                'results' => $response
-                
-            );        
-        }else{
-            $json = array(
-                'status' => 404,
-                'results' => 'Not Found'
-            );
+    static public function getItemsMenu($table, $select, $linkTo, $equalTo, $isConsultFromHome){
+        $response = new ModelSentences(
+            "SELECT $select
+            FROM $table JOIN all_menus
+            ON items_menu.id = all_menus.contenido
+            WHERE all_menus.$linkTo = :$linkTo", ":date", $equalTo);
+        $resultado = $response->getDataSql();
+        $resultado2 = array();
+        if ($isConsultFromHome) {
+            //Esta validación se hace ya que
+            //cuando se hace la consulta en el home,
+            //si se pueden visualizar las gaseosas
+            $secondResponse = new ModelSentences();
+            $resultado2 = $secondResponse->getDataSimpleConsult("items_menu","*","menu_item_type","soft_drinks");
         }
-        echo json_encode($json,http_response_code($json['status']));
-
-    
+        $arrayResultado = array_merge($resultado, $resultado2);
+        Responses::response($arrayResultado);
     }
+
 }
 
 
