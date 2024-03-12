@@ -1,5 +1,6 @@
 <?php
 
+require_once "APPS/Model/ModelPost.php";
 require_once "APPS/Menu_management/model/post_model.php";
 
 
@@ -56,12 +57,14 @@ class PostController{
 
     static public function createMenu($date){
         $menuTemp = $_SESSION["menu_temp"];
-        $response = PostModel::postRecordMenuyModel("menu",$date);
+        $response = ModelPost::simplePost("menu","date",$date, true);
         $return = new PostController();
         $allElementsSaved = true; // Variable de registro
         if ($response["response"] === 200 ) {
             foreach ($menuTemp as $element){
-                $responseItem = PostModel::postRecordAllMenusModel("all_menus",$response["id"],$element["id"],$date);
+                $binParams = array("menu","contenido","date","state");
+                $data = array($response["id"],$element["id"],$date,1);
+                $responseItem = ModelPost::simplePost("all_menus", $binParams, $data);
                 if($responseItem !== 200){
                     $allElementsSaved = false;
                     break;

@@ -1,12 +1,12 @@
 <?php
 
 
-require_once "APPS/Model/ModelSentences.php";
+require_once "APPS/Model/ModelGet.php";
 require_once "APPS/Responses.php";
 
 class GetController{
     static public function getData($table,$select,$linkTo = null ,$equalTo = null){
-        $response = new ModelSentences();
+        $response = new ModelGet();
         if ($linkTo === null) {
             $result = $response->getDataSimpleConsult($table,$select);
         }else{
@@ -46,13 +46,12 @@ class GetController{
         $orderedResponse = array_merge($especialities, $soups, $beginning, $meats, $drinks);
         $_SESSION["menu_temp"] = $orderedResponse;
         // Registra el array ordenado en el archivo de registro de errores
-        // error_log(print_r($orderedResponse, true));
         $return = new GetController();
         Responses::response($orderedResponse);
     }
     static public function getItemsNoIncludeOnMenuController($table,$select,$linkTo,$equalTo){
-        $response = new ModelSentences(
-            "SELECT *
+        $response = new ModelGet(
+            "SELECT $select
             FROM $table
             WHERE NOT EXISTS (
                 SELECT 1
@@ -63,7 +62,7 @@ class GetController{
         Responses::response($result);
     }
     static public function getItemsMenu($table, $select, $linkTo, $equalTo, $isConsultFromHome){
-        $response = new ModelSentences(
+        $response = new ModelGet(
             "SELECT $select
             FROM $table JOIN all_menus
             ON items_menu.id = all_menus.contenido
@@ -74,7 +73,7 @@ class GetController{
             //Esta validación se hace ya que
             //cuando se hace la consulta en el home,
             //si se pueden visualizar las gaseosas
-            $secondResponse = new ModelSentences();
+            $secondResponse = new ModelGet();
             $resultado2 = $secondResponse->getDataSimpleConsult("items_menu","*","menu_item_type","soft_drinks");
         }
         $arrayResultado = array_merge($resultado, $resultado2);

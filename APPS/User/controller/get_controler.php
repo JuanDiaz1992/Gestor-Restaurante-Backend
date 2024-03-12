@@ -1,13 +1,13 @@
 <?php
 
 
-require_once "APPS/Model/ModelSentences.php";
+require_once "APPS/Model/ModelGet.php";
 require_once "APPS/Responses.php";
 
 
 class GetController{
     static public function getAllUsers($table,$select){
-        $response = new ModelSentences();
+        $response = new ModelGet();
         $result = $response->getDataSimpleConsult($table,$select);
         if (!empty($result)) {
             $users = array();

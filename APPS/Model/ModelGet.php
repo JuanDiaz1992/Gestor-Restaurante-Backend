@@ -2,7 +2,7 @@
 
 require_once "gestionRestauranteSettings/Connection.php";
 
-class ModelSentences{
+class ModelGet{
     private $sentenceSql;
     private $params;
     private $binParams;
@@ -15,10 +15,10 @@ class ModelSentences{
     public static function getDataSimpleConsult($table,$select,$binParams = null,$param = null){
         if ($binParams === null) {
             $sql = "SELECT $select FROM $table";
-            $consutl = new ModelSentences($sql);
+            $consutl = new ModelGet($sql);
         }else{
             $sql = "SELECT $select FROM $table WHERE $binParams = :$binParams";
-            $consutl = new ModelSentences($sql, $binParams , $param);
+            $consutl = new ModelGet($sql, $binParams , $param);
         }
         return $consutl->getDataSql();
     }
