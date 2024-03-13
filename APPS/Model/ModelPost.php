@@ -1,14 +1,12 @@
 <?php
 
-class ModelPost{
-    private $sentenceSql;
-    private $params;
-    private $binParams;
+require_once "gestionRestauranteSettings/Connection.php";
+require_once "CrudModel.php";
+
+class ModelPost extends CrudModel{
     private $returnId;
     public function __construct($sentenceSql = null ,$binParams = null, $params = null, $returnId = null) {
-        $this->sentenceSql = $sentenceSql;
-        $this->params = $params;
-        $this->binnParams = $binParams;
+        parent::__construct($sentenceSql, $binParams, $params);
         $this->returnId = $returnId;
     }
 
@@ -21,10 +19,10 @@ class ModelPost{
             $sql = "INSERT INTO $table ($binParams) VALUES (:$binParams)";
         }
         $consutl = new ModelPost($sql, $binParams, $param, $returnId);
-        return $consutl->postWhitAttributes();
+        return $consutl->executeWhitAttributes();
     }
 
-    public function postWhitAttributes(){
+    public function executeWhitAttributes(){
         $conectionBd = Connection::connect();
         $stmt = $conectionBd->prepare($this->sentenceSql);
         if ($this->binnParams != null) {

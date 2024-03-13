@@ -1,15 +1,12 @@
 <?php
 
+require_once "CrudModel.php";
 require_once "gestionRestauranteSettings/Connection.php";
 
-class ModelGet{
-    private $sentenceSql;
-    private $params;
-    private $binParams;
+
+class ModelGet extends CrudModel{
     public function __construct($sentenceSql = null ,$binParams = null, $params = null) {
-        $this->sentenceSql = $sentenceSql;
-        $this->params = $params;
-        $this->binnParams = $binParams;
+        parent::__construct($sentenceSql, $binParams, $params);
     }
 
     public static function getDataSimpleConsult($table,$select,$binParams = null,$param = null){
@@ -20,11 +17,11 @@ class ModelGet{
             $sql = "SELECT $select FROM $table WHERE $binParams = :$binParams";
             $consutl = new ModelGet($sql, $binParams , $param);
         }
-        return $consutl->getDataSql();
+        return $consutl->executeWhitAttributes();
     }
 
 
-    public function getDataSql($binParam = null){
+    public function executeWhitAttributes($binParam = null){
         $conectionBd = Connection::connect();
         $stmt = $conectionBd->prepare($this->sentenceSql);
         if ($this->binnParams != null) {

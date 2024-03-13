@@ -1,13 +1,15 @@
 <?php
 
 require_once "APPS/Model/ModelPost.php";
-require_once "APPS/Menu_management/model/post_model.php";
+require_once "APPS/Model/ModelUpdate.php";
+require_once "APPS/Model/ModelDelete.php";
+require_once "APPS/Responses.php";
+
 
 
 class PostController{
     //Esta parte es la encargada de gestionar el menú
     static public function createMenuTemp($item){
-        $return = new PostController();
         if (!isset($_SESSION["menu_temp"])){
             $_SESSION["menu_temp"] = array();
         }
@@ -21,10 +23,10 @@ class PostController{
         if ($itemExists === 0) {
             array_push($_SESSION["menu_temp"], $item);
             $response = $_SESSION["menu_temp"];
-            $return -> fncResponse($response,200,"Ok");
+            Responses::response($response);
         } else {
             $response = "";
-            $return -> fncResponse($response,409,"Error");
+            Responses::response($response);
         }
     }
 
@@ -45,13 +47,10 @@ class PostController{
         if(!isset($price)){
             $price = 0;
         }
-        $response = PostModel::createItemMenuModel($table,$name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$idProfile_user,$amount);
-        $return = new PostController();
-        if ($response == 404){
-            $return -> fncResponse($response,404,"Error al crear el item");
-        }elseif($response == 200){
-            $return -> fncResponse($response,200,"Item creado correctamente");
-        }
+        $data = array($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$idProfile_user,$amount);
+        $binParams = array("name", "description", "price", "picture", "menu_item_type", "idProfile_user", "amount");
+        $response = ModelPost::simplePost($table,$binParams,$data);
+        Responses::responseNoDataWhitStatus($response);
     }
 
 
@@ -73,28 +72,27 @@ class PostController{
             if ($allElementsSaved) {
                 $_SESSION["menu_temp"] = [];
                 // Todos los elementos se guardaron correctamente, enviar respuesta exitosa
-                $return->fncResponse("", 200,"Menú creado correctamente");
+                Responses::responseNoDataWhitStatus(200);
             } else {
                 // Al menos un elemento falló, enviar respuesta de error
-                $return->fncResponse("", 404,"Error al crear el menú");
+                Responses::responseNoDataWhitStatus(404);
             }
         }else{
-            $return -> fncResponse($response,404);
+            Responses::responseNoDataWhitStatus(404);
         }
     }
 
 
-    static public function editMenu($table,$id,$idMEnu,$dateTime){
+    static public function addToMenu($table,$id,$idMEnu,$dateTime){
+        $response = ModelPost::simplePost($table,array("menu","contenido", "date", "state"),array($idMEnu,$id,$dateTime,1));
         $return = new PostController();
-        $responseItem = PostModel::postRecordAllMenusModel($table,$idMEnu,$id,$dateTime);
-        if($responseItem === 200){
-            $return->fncResponse("Menú creado correctamente", 200, "Elemento agregado correctamente");
+        if($response === 200){
+            Responses::responseNoDataWhitStatus(200);
         }else {
-            $return->fncResponse("Error al crear el menú", 404, "Error al agregar el elemento");
+            Responses::responseNoDataWhitStatus(404);
         }
     }
     static public function editItemMenuController($POST,$FILES = ""){
-        $return = new PostController();
         $rutaArchivoRelativa = "";
         if ($POST["name"] ==="" || $POST["amount"] ==="" || $POST["price"] ==="") {
             $return->fncResponse("",400,"Datos incompletos");
@@ -114,56 +112,34 @@ class PostController{
                 move_uploaded_file($photo['tmp_name'], $rutaArchivo);
             }
             $table="items_menu";
-            $response = PostModel::editItemMenuModel($POST,$table,$rutaArchivoRelativa);
-            if ($response == 400){
-                $return -> fncResponse($response,400,"Error");
-            }elseif($response == 200){
-                $return -> fncResponse($response,200,"Registro editado correctamente correctamente");
+            if ($rutaArchivoRelativa!=="") {
+                $binParams = array("name","description","price","amount","picture","id");
+                $data = array($POST["name"],$POST["description"],$POST["price"],$POST["amount"],$rutaArchivoRelativa,$POST["idItem"]);
+            }else{
+                $binParams = array("name","description","price","amount","id");
+                $data = array($POST["name"],$POST["description"],$POST["price"],$POST["amount"],$POST["idItem"]);
             }
+            $response = ModelUpdate::simpleUpdate($table,$binParams,$data);
+            Responses::responseNoDataWhitStatus($response);
         }
     }
 
     static public function changeState($table,$idMEnu,$id,$state){
-        $response = PostModel::changeStateModel($table,$idMEnu,$id,$state);
+        $response = ModelUpdate::simpleUpdate($table,array("state","menu","id"),array($state,$idMEnu,$id),2);
         $return = new PostController();
-        if ($response == 400){
-            $return -> fncResponse($response,400,"Error");
-        }elseif($response == 200){
-            $return -> fncResponse($response,200,"Registro ingresado correctamente");
-        }
+        Responses::responseNoDataWhitStatus($response);
     }
 
 
     //Solicitudes delete
-    static public function deleteItemFromMenuBd($table,$id,$picture = ""){
-        $response = PostModel::deleteItemFromMenuBdModel($table,$id);
+    static public function deleteItemFromBd($table,$id,$picture = ""){
+        $response = ModelDelete::simpleDelete($table,"id",$id);
         $return = new PostController();
-        if($response === 200){
-            if($picture !== "files/images/sin_imagen.webp" && $picture !=="" ){
-                unlink($picture); //Elimina el archivo anterior de la imagen
-            }
-            $return -> fncResponse($response,200,"Item eliminado");
-        }else{
-            $return -> fncResponse("",200,"Error al eliminar el item");
+        if($picture !== "files/images/sin_imagen.webp" && $picture !=="" ){
+            unlink($picture); //Elimina el archivo anterior de la imagen
         }
-
-
+        Responses::responseNoDataWhitStatus($response);
     }
-
-
-    static public function deleteMenufromBd($table,$idMenu){
-        $response = PostModel::deleteMenufromBdModel($table,$idMenu);
-        $return = new PostController();
-        if($response===200){
-            $return -> fncResponse($response,200,"Menú eliminado correctamente");
-        }else{
-            $return -> fncResponse($response,404,"Error al eliminar el menú");
-        }
-
-
-    }
-
-
     static public function deleteItemTemporal($id){
         $tempArray = array();
         foreach($_SESSION["menu_temp"] as  $key => $existingItem){
@@ -173,39 +149,8 @@ class PostController{
         }
         unset($_SESSION["menu_temp"]);
         $_SESSION["menu_temp"] = $tempArray;
-        $return = new PostController();
-        $return -> fncResponse("",200,"Eliminado correctamente");
+        Responses::responseNoDataWhitStatus(200);
     }
-
-
-    //Respuesta del controlador:
-    public function fncResponse($response,$status,$message){ //Metodo usado para dar respuestas básicas
-        if (!empty($response) && $status === 200) {
-            $json = array(
-                'status' => $status,
-                'results' => 'success',
-                'registered'=>true,
-                'response'=>$response,
-                'message' => $message
-            );
-        }else if($status === 409){
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }else{
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }
-        echo json_encode($json,http_response_code($json['status']));
-    }
-
 
 }
 

@@ -1,6 +1,9 @@
 <?php
 
 require_once "APPS/User/model/post_model.php";
+require_once "APPS/Model/ModelPost.php";
+require_once "APPS/Model/ModelGet.php";
+require_once "APPS/Responses.php";
 
 
 class PostController{
@@ -12,21 +15,18 @@ class PostController{
             !preg_match('/^[a-zA-Z0-9]+$/', $password) ||
             !preg_match('/^[a-zA-Z\s]+$/', $name) ||
             !preg_match('/^[a-zA-Z0-9]+$/', $confirmPassword)) {
-                $json = array(
-                    'status' => 404,
-                    'is_logged_in' => false,
-                    'message' => 'Los datos no pueden contener caracteres especiales'
-                );
-                echo json_encode($json, http_response_code($json['status']));
+                Responses::responseNoDataWhitStatus(405);
                 exit;
             }
             if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta 
-                $json = array(
-                    'status' => 404,
-                    'is_logged_in' => false,
-                    'message' => 'Las contraseñas no coinciden'
-                );
-                echo json_encode($json, http_response_code($json['status']));
+                Responses::responseNoDataWhitStatus(406);
+                exit;
+            }
+            //Se valida primero si el usuario ya existe, si existe se finaliza la ejecución
+            $table = "profile_user";
+            $doesTheUserExist = ModelGet::getDataSimpleConsult($table,"*","username",$userName);
+            if (count($doesTheUserExist)>=1) {
+                Responses::responseNoDataWhitStatus(409);
                 exit;
             }
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
@@ -42,63 +42,66 @@ class PostController{
                 $rutaArchivoRelativa = "files/images/sin_imagen.webp";
             }
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //Aquí se genera un hash para la contraseña
-            $response = PostModel::postDataCreateUser($id_business,$userName, $hashedPassword, $name, $rutaArchivoRelativa, $type_user);
-            $return = new PostController();
-            if ($response == 409){
-                $return -> fncResponse($response,409,"El usuario ya existe");
-            }elseif($response == 200){
-                $return -> fncResponse($response,200, "Usuario creado correctamente");
-            }
+            $response = ModelPost::simplePost($table,array(
+                "username",
+                "password",
+                "name",
+                "photo",
+                "type_user",
+                "id_negocio"),
+                array(
+                    $userName,
+                    $hashedPassword,
+                    $name,
+                    $rutaArchivoRelativa,
+                    $type_user
+                )
+            );
+            Responses::responseNoDataWhitStatus($response);
+
 
 
     }//***********************Este metodo es usado para el inicio de sessión***************/
 
 
-    static public function postDataconsultUser($table,$username,$password){
-        if (!preg_match('/^[a-zA-Z0-9]+$/', $username) || !preg_match('/^[a-zA-Z0-9]+$/', $password)) { //Si el usuario o contraseña incluyen caracteres, no permite continúar
-            $json = array(
-                'status' => 404,
-                'is_logged_in' => false,
-                'message' => 'El usuario o la contraseña no pueden contener caracteres especiales.' 
-            );
-            echo json_encode($json,http_response_code($json['status']));
+    static public function postDataconsultUser($table,$userName,$password){
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $userName) || !preg_match('/^[a-zA-Z0-9]+$/', $password)) { //Si el usuario o contraseña incluyen caracteres, no permite continúar
+            Responses::responseNoDataWhitStatus(404);
         }else{//Si no hay caracteres especiales se envía la información al modelo para validar si el usuario y la contraseña coinciden
-            $response = PostModel::postDataconsultUser($table,$username,$password);
-            $return = new PostController();
-            $return -> isUserOk($response);
+            $table = "profile_user";
+            $validateUser = ModelGet::getDataSimpleConsult($table,"*","username",$userName);
+            if (count($validateUser)>=1) {
+                $hashedPassword = $validateUser[0]->password;
+                if (password_verify($password, $hashedPassword)){
+                    $new_id = rand(3000, 11500); //Se genera un id para la sesión el cuál servirá como token en el front
+                    session_id($new_id);
+                    session_set_cookie_params(1800);
+                    session_start();
+                    $_SESSION["username"] = $validateUser[0]->username; //Se guardan las variables de sesión
+                    $_SESSION["estatus"] = true;
+                    $_SESSION["type_user"] = $validateUser[0]->type_user;
+                    $response = array( //Se devuelve el json con la información necesaria para inicia la sesión en el front
+                        'is_logged_in' => true,
+                        'token' => $new_id,
+                        'username'=> $_SESSION["username"],
+                        "message"=> "Usuario correcto",
+                        "name"=> $validateUser[0]->name,
+                        "type_user" => $validateUser[0]->type_user,
+                        "photo" => $validateUser[0]->photo,
+                        "id_user"=>$validateUser[0]->id
+                    );
+                    Responses::response($response);
+                }else{
+                    Responses::responseNoDataWhitStatus(404);
+                }
+            }else{
+                Responses::responseNoDataWhitStatus(404);
+            }
         }
     }
 
 
-    public function isUserOk($response){ //Si el usuario y contraseña coinciden, se inicia sesión
-        if (!empty($response)) {
-            $new_id = rand(3000, 11500); //Se genera un id para la sesión el cuál servirá como token en el front
-            session_id($new_id);
-            session_set_cookie_params(1800);
-            session_start();
-            $_SESSION["username"] = $response[0]->username; //Se guardan las variables de sesión
-            $_SESSION["estatus"] = true;
-            $_SESSION["type_user"] = $response[0]->type_user;
-            $json = array( //Se devuelve el json con la información necesaria para inicia la sesión en el front
-                'status' => 200,
-                'is_logged_in' => true,
-                'token' => $new_id,
-                'username'=> $_SESSION["username"],
-                "message"=> "Usuario correcto",
-                "name"=> $response[0]->name,
-                "type_user" => $response[0]->type_user,
-                "photo" => $response[0]->photo,
-                "id_user"=>$response[0]->id
-            );
-        }else{
-            $json = array( //Si la contraseña o el usuario son incorrectos, se devuelve la respuesta 
-                'status' => 404,
-                'is_logged_in' => false,
-                'message' => 'User or password incorrect'
-            );
-        }
-        echo json_encode($json,http_response_code($json['status']));
-    }
+
 
     static public function postControllerModify($id, $name, $photo, $type_user, $userName){
         if (

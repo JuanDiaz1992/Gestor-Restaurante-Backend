@@ -58,7 +58,7 @@ class GetController{
                 FROM all_menus
                 WHERE all_menus.contenido = $table.id
                 AND all_menus.$linkTo = :$linkTo)", $linkTo, $equalTo);
-        $result = $response->getDataSql();
+        $result = $response->executeWhitAttributes();
         Responses::response($result);
     }
     static public function getItemsMenu($table, $select, $linkTo, $equalTo, $isConsultFromHome){
@@ -67,7 +67,7 @@ class GetController{
             FROM $table JOIN all_menus
             ON items_menu.id = all_menus.contenido
             WHERE all_menus.$linkTo = :$linkTo", ":date", $equalTo);
-        $resultado = $response->getDataSql();
+        $resultado = $response->executeWhitAttributes();
         $resultado2 = array();
         if ($isConsultFromHome) {
             //Esta validación se hace ya que

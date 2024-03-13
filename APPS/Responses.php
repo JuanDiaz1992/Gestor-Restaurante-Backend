@@ -16,6 +16,13 @@ class Responses{
         }
         echo json_encode($json,http_response_code($json['status']));
     }
+
+    public static function responseNoDataWhitStatus($status){
+        $json = array(
+            'status' => $status,
+        );
+        echo json_encode($json,http_response_code($json['status']));
+    }
 }
 
 ?>

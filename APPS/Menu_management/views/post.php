@@ -1,6 +1,5 @@
 <?php
 //Vista para solicitudes post del user
-
 require_once "APPS/Menu_management/controller/post_controler.php";
 $response = new PostController();
 session_id($token);
@@ -27,7 +26,7 @@ if($token && $_SESSION["type_user"] === 1){
         $response -> createMenu($data["date"]);
     }else if(isset($data["add_to_menu"])){
         $table = "all_menus";
-        $response -> editMenu($table,$data["id"],$data["idMEnu"],$data["dateTime"]);
+        $response -> addToMenu($table,$data["id"],$data["idMEnu"],$data["dateTime"]);
     }else if(isset($data["supend_item_menu"])){
         $table = "all_menus";
         $response -> changeState($table,$data["idMenu"],$data["id"],$data["state"]);
@@ -43,16 +42,16 @@ if($token && $_SESSION["type_user"] === 1){
     }
     else if(isset($data["delete_item_bd_from_menu"])) {
         $table = "items_menu";
-        $response -> deleteItemFromMenuBd($table, $data["item"],$data["picture"]);
+        $response -> deleteItemFromBd($table, $data["item"],$data["picture"]);
     }else if(isset($data["delete_item_menu_bd"]) && $data["delete_item_menu_bd"] == 1){
         $table = "all_menus";
-        $response -> deleteItemFromMenuBd($table, $data["id"]);
+        $response -> deleteItemFromBd($table, $data["id"]);
     }else if(isset($data["delete_all_menu"])&& $data["delete_all_menu"] == 1){
         $table = "menu";
-        $response -> deleteMenufromBd($table,$data["idMenu"]);
+        $response -> deleteItemFromBd($table,$data["idMenu"]);
     }else if(isset($data["delete_menu"])){
         $table = "menu";
-        $response -> deleteMenufromBd($table,$data["idMenu"]);
+        $response -> deleteItemFromBd($table,$data["idMenu"]);
     }
 }else{
     badResponse();
