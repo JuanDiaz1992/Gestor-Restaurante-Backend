@@ -1,9 +1,8 @@
 <?php
 
-require_once "APPS/Model/ModelPost.php";
-require_once "APPS/Model/ModelUpdate.php";
-require_once "APPS/Model/ModelDelete.php";
-require_once "APPS/Responses.php";
+
+require_once "Funciones/Responses.php";
+require_once "APPS/Model/DAO.php";
 
 
 
@@ -49,21 +48,21 @@ class PostController{
         }
         $data = array($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$idProfile_user,$amount);
         $binParams = array("name", "description", "price", "picture", "menu_item_type", "idProfile_user", "amount");
-        $response = ModelPost::simplePost($table,$binParams,$data);
+        $response = DAO::create($table,$binParams,$data);
         Responses::responseNoDataWhitStatus($response);
     }
 
 
     static public function createMenu($date){
         $menuTemp = $_SESSION["menu_temp"];
-        $response = ModelPost::simplePost("menu","date",$date, true);
+        $response = DAO::create("menu","date",$date, true);
         $return = new PostController();
         $allElementsSaved = true; // Variable de registro
         if ($response["response"] === 200 ) {
             foreach ($menuTemp as $element){
                 $binParams = array("menu","contenido","date","state");
                 $data = array($response["id"],$element["id"],$date,1);
-                $responseItem = ModelPost::simplePost("all_menus", $binParams, $data);
+                $responseItem = DAO::create("all_menus", $binParams, $data);
                 if($responseItem !== 200){
                     $allElementsSaved = false;
                     break;
@@ -84,7 +83,7 @@ class PostController{
 
 
     static public function addToMenu($table,$id,$idMEnu,$dateTime){
-        $response = ModelPost::simplePost($table,array("menu","contenido", "date", "state"),array($idMEnu,$id,$dateTime,1));
+        $response = DAO::create($table,array("menu","contenido", "date", "state"),array($idMEnu,$id,$dateTime,1));
         $return = new PostController();
         if($response === 200){
             Responses::responseNoDataWhitStatus(200);
@@ -119,13 +118,13 @@ class PostController{
                 $binParams = array("name","description","price","amount","id");
                 $data = array($POST["name"],$POST["description"],$POST["price"],$POST["amount"],$POST["idItem"]);
             }
-            $response = ModelUpdate::simpleUpdate($table,$binParams,$data);
+            $response = DAO::update($table,$binParams,$data);
             Responses::responseNoDataWhitStatus($response);
         }
     }
 
     static public function changeState($table,$idMEnu,$id,$state){
-        $response = ModelUpdate::simpleUpdate($table,array("state","menu","id"),array($state,$idMEnu,$id),2);
+        $response = DAO::update($table,array("state","menu","id"),array($state,$idMEnu,$id),2);
         $return = new PostController();
         Responses::responseNoDataWhitStatus($response);
     }
@@ -133,8 +132,7 @@ class PostController{
 
     //Solicitudes delete
     static public function deleteItemFromBd($table,$id,$picture = ""){
-        $response = ModelDelete::simpleDelete($table,"id",$id);
-        $return = new PostController();
+        $response = DAO::delete($table,"id",$id);
         if($picture !== "files/images/sin_imagen.webp" && $picture !=="" ){
             unlink($picture); //Elimina el archivo anterior de la imagen
         }

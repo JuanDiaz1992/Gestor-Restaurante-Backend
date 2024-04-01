@@ -1,6 +1,7 @@
 <?php
 
-require_once "APPS/Inventory/model/post_model.php";
+require_once "APPS/Model/DAO.php";
+require_once "Funciones/Responses.php";
 
 
 class PostController{
@@ -12,63 +13,19 @@ class PostController{
                 if($observations ===""){
                     $observations = "No hay observaciones";
                 }
-                $response = PostModel::postRecordInventoryModel($table, $purchaseValue, $reason, $observations, $idProfile_user,$date);
-                $return = new PostController();
-                if ($response == 404){
-                    $return -> fncResponse($response,404, "No se pudo realizar el registro, valide los datos e intentelo de nuevo");
-                }elseif($response == 200){
-                    $return -> fncResponse($response,200, "Registro realizado correctamente");
-                }
+                $response = DAO::create($table,array("purchaseValue", "reason", "observations", "idProfile_user", "date"),array($purchaseValue, $reason, $observations, $idProfile_user,$date));
+                //$response = PostModel::postRecordInventoryModel($table, $purchaseValue, $reason, $observations, $idProfile_user,$date);
+                Responses::responseNoDataWhitStatus($response);
             }else{
-                $json = array(
-                    'status' => 404,
-                    'message' => 'Hay datos sin rellenar'
-                );
-                echo json_encode($json, http_response_code($json['status']));
-                exit;
+                Responses::responseNoDataWhitStatus(404);
             }
     }
 
 
     static public function deleteItemInvetoryController($table,$id){
-        $response = PostModel::deleteItemInvetoryModel($table,$id);
-        $return = new PostController();
-        if ($response == 404){
-            $return -> fncResponse($response,404,"No se pudo eliminar el registro");
-        }elseif($response == 200){
-            $return -> fncResponse($response,200,"Registro eliminado correctamente");
-        }
+        $response = DAO::delete($table,"id",$id);
+        Responses::responseNoDataWhitStatus($response);
     }
-
-
-    //Respuesta del controlador:
-    public function fncResponse($response,$status,$message){ //Metodo usado para dar respuestas básicas
-        if (!empty($response) && $status === 200) {
-            $json = array(
-                'status' => $status,
-                'results' => 'success',
-                'registered'=>true,
-                'response'=>$response,
-                'message' => $message
-            );
-        }else if($status === 409){
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }else{
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }
-        echo json_encode($json,http_response_code($json['status']));
-    }
-
 
 }
 

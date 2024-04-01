@@ -1,5 +1,6 @@
 <?php
 require_once "APPS/Inventory/controller/get_controler.php";
+require_once "Funciones/Responses.php";
 $response = new GetController();
 
 if(isset($token)){
@@ -11,10 +12,10 @@ if(isset($token)){
             $response -> getInventoryForDate($table,$select,$_GET["linkTo"],$_GET["equalTo"]);
         }
         else{
-            badResponse();
+            Responses::responseNoDataWhitStatus(404);
         }
     }else{
-        badResponse();
+        Responses::responseNoDataWhitStatus(404);
     }
 }
 

@@ -1,5 +1,6 @@
 <?php
 require_once "APPS/Menu_management/controller/get_controler.php";
+require_once "Funciones/Responses.php";
 $response = new GetController();
 
 if ($table === "get_menu_index") {
@@ -29,10 +30,10 @@ if ($table === "get_menu_index") {
                 $response ->getItemsNoIncludeOnMenuController($table,$select,$_GET["linkTo"],$_GET["equalTo"]);
             }
             else{
-                badResponse();
+                Responses::responseNoDataWhitStatus(404);
             }
         }else{
-            badResponse();
+            Responses::responseNoDataWhitStatus(404);
         }
     }
 }

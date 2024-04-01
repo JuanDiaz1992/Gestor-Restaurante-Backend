@@ -1,12 +1,6 @@
 <?php
+require_once "Funciones/Responses.php";
 $data = json_decode(file_get_contents('php://input'), true);
-function badResponse(){
-    $json = array(
-        'status' => 404,
-        'results' => 'Not Found'
-    );
-    echo json_encode($json,http_response_code($json['status']));
-}
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];
     if (strpos($authorizationHeader, 'Token') === 0) {
@@ -17,7 +11,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 if (isset($_SERVER['HTTP_MODULE'])) {
     $module = $_SERVER['HTTP_MODULE'];
 }else{
-    badResponse();
+    Responses::responseNoDataWhitStatus(404);
 }
 if($module == 'user'){
     require_once "APPS/User/views/post.php";
@@ -26,17 +20,5 @@ if($module == 'user'){
 }else if($module == 'menu_management'){
     require_once "APPS/Menu_management/views/post.php";
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

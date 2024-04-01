@@ -1,6 +1,6 @@
 <?php
 
-require_once "gestionRestauranteSettings/cors.php";
+require_once "Settings/cors.php";
 require "vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -19,9 +19,9 @@ if(strpos($os_info, 'Windows')!== false){
 }
 
 //Manejo de rutas
-require_once "gestionRestauranteSettings/routes_controller.php";
-$index = new RoutesController();
-$index-> index();
+require_once "Routes/routes_controller.php";
+RoutesController::index();
+
 
 
 

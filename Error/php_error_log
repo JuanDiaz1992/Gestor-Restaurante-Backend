@@ -1,57 +1,81 @@
-[13-Mar-2024 06:46:15 Europe/Berlin] PHP Warning:  Undefined variable $userName in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 77
-[13-Mar-2024 06:47:01 Europe/Berlin] PHP Fatal error:  Uncaught Error: Undefined constant "validateUser" in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php:79
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\APPS\User\views\post.php(8): PostController::postDataconsultUser('profile_user', 'Admin', '3118514322s')
-#1 F:\xampp\htdocs\restaurante\Routes\services\post.php(23): require_once('F:\\xampp\\htdocs...')
-#2 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#4 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#5 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 79
-[13-Mar-2024 06:47:32 Europe/Berlin] Array
+[01-Apr-2024 04:38:12 Europe/Berlin] stdClass Object
 (
-    [0] => stdClass Object
+    [iat] => 1711938754
+    [exp] => 1712025154
+    [data] => stdClass Object
         (
             [id] => 15
-            [username] => Admin
-            [password] => $2y$10$Ist28p6.JTw4R8iky7p4FOUq28IP73vwOCc8I04nZEJu4bA7ZScV6
-            [name] => Juan Diaz
-            [photo] => files/user_profile/Admin/278091583_10223983323065818_8927820569779141776_n.jpg
-            [type_user] => 1
-            [id_negocio] => 1
+            [user] => Admin
         )
 
+    [id] => 4578
 )
 
-[13-Mar-2024 06:49:09 Europe/Berlin] $2y$10$Ist28p6.JTw4R8iky7p4FOUq28IP73vwOCc8I04nZEJu4bA7ZScV6
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 85
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 85
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "username" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 85
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 87
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 87
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "type_user" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 87
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 94
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 94
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "name" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 94
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 95
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 95
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "type_user" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 95
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 96
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 96
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "photo" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 96
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 97
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 97
-[13-Mar-2024 06:51:20 Europe/Berlin] PHP Warning:  Attempt to read property "id" on null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 97
-[13-Mar-2024 06:52:12 Europe/Berlin] PHP Warning:  Undefined variable $json in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 108
-[13-Mar-2024 06:52:12 Europe/Berlin] PHP Warning:  Undefined variable $json in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 108
-[13-Mar-2024 06:52:12 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 108
-[13-Mar-2024 07:02:42 Europe/Berlin] PHP Warning:  Undefined array key "menu_temp" in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 18
-[13-Mar-2024 07:02:42 Europe/Berlin] PHP Warning:  foreach() argument must be of type array|object, null given in F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\get_controler.php on line 26
-[13-Mar-2024 07:02:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method PostController::deleteMenufromBd() in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php:54
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\Routes\services\post.php(27): require_once()
-#1 F:\xampp\htdocs\restaurante\Routes\routes.php(20): include('F:\\xampp\\htdocs...')
-#2 F:\xampp\htdocs\restaurante\gestionRestauranteSettings\routes_controller.php(4): include('F:\\xampp\\htdocs...')
-#3 F:\xampp\htdocs\restaurante\index.php(24): RoutesController->index()
-#4 {main}
-  thrown in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php on line 54
+[01-Apr-2024 04:38:12 Europe/Berlin] stdClass Object
+(
+    [iat] => 1711938754
+    [exp] => 1712025154
+    [data] => stdClass Object
+        (
+            [id] => 15
+            [user] => Admin
+        )
+
+    [id] => 4578
+)
+
+[01-Apr-2024 05:14:49 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:14:49 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:14:49 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:15 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:15:32 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:32 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:15:32 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:16:37 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:41 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\get.php on line 15
+[01-Apr-2024 05:16:45 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Inventory\views\get.php on line 8
+[01-Apr-2024 05:16:45 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Inventory\views\get.php on line 8
+[01-Apr-2024 05:16:45 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\Inventory\views\get.php on line 8
+[01-Apr-2024 05:16:45 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\Inventory\views\get.php on line 8
+[01-Apr-2024 05:16:51 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 19
+[01-Apr-2024 05:16:51 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 21
+[01-Apr-2024 05:16:51 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 23
+[01-Apr-2024 05:16:51 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 25
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:18:54 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:21:17 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:21:17 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:21:17 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:22:43 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:27:10 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:27:10 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:27:10 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186
+[01-Apr-2024 05:29:31 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:29:31 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: F:\xampp\tmp) in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 185
+[01-Apr-2024 05:29:31 Europe/Berlin] PHP Warning:  session_destroy(): Trying to destroy uninitialized session in F:\xampp\htdocs\restaurante\APPS\User\controller\post_controler.php on line 186

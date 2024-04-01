@@ -1,14 +1,12 @@
 <?php
-
-
-require_once "APPS/Model/ModelGet.php";
-require_once "APPS/Responses.php";
+require_once "APPS/Model/DAO.php";
+require_once "Funciones/Responses.php";
 
 
 class GetController{
     static public function getAllUsers($table,$select){
-        $response = new ModelGet();
-        $result = $response->getDataSimpleConsult($table,$select);
+        $response = new DAO();
+        $result = $response->get($table,$select);
         if (!empty($result)) {
             $users = array();
             foreach($result as $key => $value){

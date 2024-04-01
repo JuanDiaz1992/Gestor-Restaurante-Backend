@@ -1,7 +1,7 @@
 <?php
-require_once "gestionRestauranteSettings/Connection.php";
+require_once "Settings/Connection.php";
 
-class CrudModel{
+abstract class CrudModel{
     protected $sentenceSql;
     protected $params;
     protected $binParams;
@@ -10,6 +10,13 @@ class CrudModel{
         $this->params = $params;
         $this->binnParams = $binParams;
     }
+
+
+    abstract static public function create($table,$binParams = null,$param = null, $returnId = null);
+    abstract static public function get($table,$select,$binParams = null,$param = null);
+    abstract static public function delete($table,$binParams,$param);
+    abstract static public function update($table,$binParams,$param, $cantConditions = 1);
+
 
     public function executeWhitAttributes(){
         $conectionBd = Connection::connect();
@@ -32,6 +39,8 @@ class CrudModel{
             return 400;
         }
     }
+
+
 }
 
 

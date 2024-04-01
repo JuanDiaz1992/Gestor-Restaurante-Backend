@@ -1,6 +1,7 @@
 <?php
 //Vista para solicitudes post del user
 require_once "APPS/Menu_management/controller/post_controler.php";
+require_once "Funciones/Responses.php";
 $response = new PostController();
 session_id($token);
 session_start();
@@ -54,7 +55,7 @@ if($token && $_SESSION["type_user"] === 1){
         $response -> deleteItemFromBd($table,$data["idMenu"]);
     }
 }else{
-    badResponse();
+    Responses::responseNoDataWhitStatus(404);
 }
 
 

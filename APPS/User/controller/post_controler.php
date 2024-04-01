@@ -1,16 +1,22 @@
 <?php
 
-require_once "APPS/User/model/post_model.php";
-require_once "APPS/Model/ModelPost.php";
-require_once "APPS/Model/ModelGet.php";
-require_once "APPS/Responses.php";
-
+require_once "APPS/Model/DAO.php";
+require_once "Funciones/Responses.php";
+use Firebase\JWT\JWT;
 
 class PostController{
 
 
     /************************Metodo para crear usuarios nuevos *********************/
-    static public function postControllerCreateUser($id_business,$userName, $password, $confirmPassword, $name, $photo, $type_user){
+    static public function postControllerCreateUser($table,$POST,$photo){
+
+        $idNegocio = $POST['id_business'];
+        $userName = $POST['userName'];
+        $password = $POST['password'];
+        $confirmPassword = $POST['confirmPassword'];
+        $name = $POST['name'];
+        $type_user = $POST['type_user'];
+
         if (!preg_match('/^[a-zA-Z0-9]+$/', $userName) || //En este if se validan caracteres especiales
             !preg_match('/^[a-zA-Z0-9]+$/', $password) ||
             !preg_match('/^[a-zA-Z\s]+$/', $name) ||
@@ -18,13 +24,12 @@ class PostController{
                 Responses::responseNoDataWhitStatus(405);
                 exit;
             }
-            if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta 
+            if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta
                 Responses::responseNoDataWhitStatus(406);
                 exit;
             }
             //Se valida primero si el usuario ya existe, si existe se finaliza la ejecución
-            $table = "profile_user";
-            $doesTheUserExist = ModelGet::getDataSimpleConsult($table,"*","username",$userName);
+            $doesTheUserExist = DAO::get($table,"*","username",$userName);
             if (count($doesTheUserExist)>=1) {
                 Responses::responseNoDataWhitStatus(409);
                 exit;
@@ -42,7 +47,7 @@ class PostController{
                 $rutaArchivoRelativa = "files/images/sin_imagen.webp";
             }
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //Aquí se genera un hash para la contraseña
-            $response = ModelPost::simplePost($table,array(
+            $response = DAO::create($table,array(
                 "username",
                 "password",
                 "name",
@@ -54,27 +59,30 @@ class PostController{
                     $hashedPassword,
                     $name,
                     $rutaArchivoRelativa,
-                    $type_user
+                    $type_user,
+                    $idNegocio
                 )
             );
             Responses::responseNoDataWhitStatus($response);
 
 
 
-    }//***********************Este metodo es usado para el inicio de sessión***************/
+    }
 
 
-    static public function postDataconsultUser($table,$userName,$password){
-        if (!preg_match('/^[a-zA-Z0-9]+$/', $userName) || !preg_match('/^[a-zA-Z0-9]+$/', $password)) { //Si el usuario o contraseña incluyen caracteres, no permite continúar
+    //***********************Este metodo es usado para el inicio de sessión***************/
+    static public function postDataconsultUser($table,$data){
+        if (!preg_match('/^[a-zA-Z0-9]+$/', $data["username"]) || !preg_match('/^[a-zA-Z0-9]+$/', $data["password"])) { //Si el usuario o contraseña incluyen caracteres, no permite continúar
             Responses::responseNoDataWhitStatus(404);
         }else{//Si no hay caracteres especiales se envía la información al modelo para validar si el usuario y la contraseña coinciden
-            $table = "profile_user";
-            $validateUser = ModelGet::getDataSimpleConsult($table,"*","username",$userName);
+            $validateUser = DAO::get($table,"*","username",$data["username"]);
             if (count($validateUser)>=1) {
                 $hashedPassword = $validateUser[0]->password;
-                if (password_verify($password, $hashedPassword)){
-                    $new_id = rand(3000, 11500); //Se genera un id para la sesión el cuál servirá como token en el front
-                    session_id($new_id);
+                if (password_verify($data["password"], $hashedPassword)){
+                    require_once "Funciones/TokenGenerate.php";
+                    $tokenGerator = Token::generateToken($validateUser[0]->id, $validateUser[0]->username);
+                    $jwt = JWT::encode($tokenGerator,'3aw58420', 'HS256'); //Generación de token con los datos de usuario y codigo alfanumerico
+                    session_id($tokenGerator["id"]);
                     session_set_cookie_params(1800);
                     session_start();
                     $_SESSION["username"] = $validateUser[0]->username; //Se guardan las variables de sesión
@@ -82,7 +90,7 @@ class PostController{
                     $_SESSION["type_user"] = $validateUser[0]->type_user;
                     $response = array( //Se devuelve el json con la información necesaria para inicia la sesión en el front
                         'is_logged_in' => true,
-                        'token' => $new_id,
+                        'token' => $jwt,
                         'username'=> $_SESSION["username"],
                         "message"=> "Usuario correcto",
                         "name"=> $validateUser[0]->name,
@@ -102,20 +110,23 @@ class PostController{
 
 
 
-
-    static public function postControllerModify($id, $name, $photo, $type_user, $userName){
+    //***********************Este metodo es usado para modificar un usuarion***************/
+    static public function postControllerModify($table,$POST,$photo){
+        $id = $POST['id'];
+        $name = $POST['name'];
+        $type_user = $POST['type_user'];
+        $userName = $POST['username'];
+        $beforePicture = $POST['beforePicture'];
         if (
             !preg_match('/^[a-zA-Z\s]+$/', $name) ||
             !preg_match('/^[a-zA-Z0-9]+$/', $type_user)) {
-                $json = array(
-                    'status' => 404,
-                    'is_logged_in' => false,
-                    'message' => 'Los datos no pueden contener caracteres especiales'
-                );
-                echo json_encode($json, http_response_code($json['status']));
-                exit;
+                Responses::responseNoDataWhitStatus(404);
             }
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
+                if (isset($beforePicture)) {
+                    if($beforePicture !== "files/images/sin_imagen.webp"){
+                        unlink($beforePicture); //Elimina el archivo anterior de la imagen
+                    }}
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
                 $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
@@ -124,58 +135,48 @@ class PostController{
                 }
                 $rutaArchivoRelativa = 'files/user_profile/' . $userName .'/'. $nombreArchivo;
                 move_uploaded_file($photo['tmp_name'], $rutaArchivo);
+                $response = DAO::update($table,array("name","photo","type_user","id"),array($name, $rutaArchivoRelativa, $type_user,$id),2);
             }else{
-                $rutaArchivoRelativa = false;
+                $response = DAO::update($table,array("name","type_user","id"),array($name,$type_user,$id) );
             }
-            $response = PostModel::PostDataModify($id, $name, $rutaArchivoRelativa, $type_user);
-            $return = new PostController();
-            if ($response == 409){
-                $return -> fncResponse($response,409,"No se pudo realizar el cambio");
-            }elseif($response == 200){
-                $return -> fncResponse($response,200,"Cambio éxitoso");
-            }
+            Responses::responseNoDataWhitStatus($response);
     }
 
-
-    static public function changePassword($id,$password,$confirmPassword){
+    //***********************Cambiar una contraseña***************/
+    static public function changePassword($table,$data){
+        $id = $data['id'];
+        $password = $data['password'];
+        $confirmPassword = $data['confirmPassword'];
         if (!preg_match('/^[a-zA-Z0-9]+$/', $password) ||
         !preg_match('/^[a-zA-Z0-9]+$/', $confirmPassword)) {
-            $json = array(
-                'status' => 404,
-                'message' => 'Los datos no pueden contener caracteres especiales'
-            );
-            echo json_encode($json, http_response_code($json['status']));
+            Responses::responseNoDataWhitStatus(404);
             exit;
         }
-        if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta 
-            $json = array(
-                'status' => 404,
-                'is_logged_in' => false,
-                'message' => 'Las contraseñas no coinciden'
-            );
-            echo json_encode($json, http_response_code($json['status']));
+        if ($password !== $confirmPassword) { //Aquí se valida que la contraseña sea correcta
+            Responses::responseNoDataWhitStatus(409);
             exit;
         }
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT); //Aquí se genera un hash para la contraseña
-            $response = PostModel::PostChagePassword($id,$hashedPassword);
-            $return = new PostController();
-            if ($response == 404){
-                $return -> fncResponse($response,404);
-            }elseif($response == 200){
-                $return -> fncResponse($response,200);
-            }
+            $response = DAO::update($table,array("password","id"),array($hashedPassword,$id) );
+            Responses::responseNoDataWhitStatus($response);
     }
 
 
     //Solicitudes delete
-    static public function deleteUserController($id){
-        $response = PostModel::deleteUserModel($id);
-        $return = new PostController();
-        if($response === 200){
-            $return -> fncResponse($response,200,"Usuario eliminado");
-        }else if($response === 404){
-            $return -> fncResponse($response,404,"No se pudo eliminar el usuario");
+
+    //***********************Este metodo es usado para borrar un usuario***************/
+    static public function deleteUserController($table,$data){
+        $id = $data["id"];
+        $username = $data["username"];
+        $response = DAO::delete($table,"id",$id);
+        if ($response == 200) {
+            $directoryPath = "files/user_profile/" . $username;
+            if (is_dir($directoryPath)) {
+                require_once "Funciones/DeleteDirectory.php";
+                deleteDirectory($directoryPath);
+            }
         }
+        Responses::responseNoDataWhitStatus($response);
     }
 
 
@@ -184,41 +185,7 @@ class PostController{
         session_start();
         session_destroy();
         session_unset();
-        $json = array(
-            'status' => 200,
-            'is_logged_in' => false,
-            'message'=>'Usuario deslogueado'
-        );
-        echo json_encode($json,http_response_code($json['status']));
-    }
-    /******************************************************/
-
-
-    //Respuesta del controlador:
-    public function fncResponse($response,$status,$message){ //Metodo usado para dar respuestas básicas
-        if (!empty($response) && $status === 200) {
-            $json = array(
-                'status' => $status,
-                'results' => 'success',
-                'registered'=>true,
-                'message' => $message
-            );
-        }else if($status === 409){
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }else{
-            $json = array(
-                'registered'=>false,
-                'status' => $status,
-                'results' => 'Not Found',
-                'message' => $message
-            );
-        }
-        echo json_encode($json,http_response_code($json['status']));
+        Responses::responseNoDataWhitStatus(200);
     }
 
 

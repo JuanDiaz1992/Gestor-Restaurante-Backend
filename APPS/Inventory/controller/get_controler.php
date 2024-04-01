@@ -1,13 +1,12 @@
 <?php
 
-
-require_once "APPS/Model/ModelSentences.php";
-require_once "APPS/Responses.php";
+require_once "APPS/Model/DAO.php";
+require_once "Funciones/Responses.php";
 
 class GetController{
     static public function getInventoryForDate($table,$select,$linkTo,$equalTo){
-        $response = new ModelSentences();
-        $result = $response->getDataSimpleConsult($table,$select,$linkTo,$equalTo);
+        $response = new DAO();
+        $result = $response->get($table,$select,$linkTo,$equalTo);
         Responses::response($result);
     }
 }

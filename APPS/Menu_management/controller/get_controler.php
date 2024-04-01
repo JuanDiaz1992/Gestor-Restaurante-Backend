@@ -1,56 +1,64 @@
 <?php
 
 
-require_once "APPS/Model/ModelGet.php";
-require_once "APPS/Responses.php";
+require_once "APPS/Model/DAO.php";
+require_once "Funciones/Responses.php";
 
 class GetController{
     static public function getData($table,$select,$linkTo = null ,$equalTo = null){
-        $response = new ModelGet();
+        $response = new DAO();
         if ($linkTo === null) {
-            $result = $response->getDataSimpleConsult($table,$select);
+            $result = $response->get($table,$select);
         }else{
-            $result = $response->getDataSimpleConsult($table,$select,$linkTo,$equalTo);
+            $result = $response->get($table,$select,$linkTo,$equalTo);
         }
         Responses::response($result);
     }
     static public function getDataBySession(){
-        $response = $_SESSION["menu_temp"];
-        // Arreglos para cada tipo de menú
-        $especialities = [];
-        $soups = [];
-        $beginning = [];
-        $meats = [];
-        $drinks = [];
-        // Clasifica los elementos en los arreglos correspondientes
-        foreach ($response as $element) {
-            switch ($element['menu_item_type']) {
-                case 'especialities':
-                    $especialities[] = $element;
-                    break;
-                case 'soups':
-                    $soups[] = $element;
-                    break;
-                case 'beginning':
-                    $beginning[] = $element;
-                    break;
-                case 'meats':
-                    $meats[] = $element;
-                    break;
-                case 'drinks':
-                    $drinks[] = $element;
-                    break;
+        try {
+            if (isset($_SESSION["menu_temp"])) {
+                $response = $_SESSION["menu_temp"];
+            }else{
+                Responses::responseNoDataWhitStatus(404);
             }
+            // Arreglos para cada tipo de menú
+            $especialities = [];
+            $soups = [];
+            $beginning = [];
+            $meats = [];
+            $drinks = [];
+            // Clasifica los elementos en los arreglos correspondientes
+            foreach ($response as $element) {
+                switch ($element['menu_item_type']) {
+                    case 'especialities':
+                        $especialities[] = $element;
+                        break;
+                    case 'soups':
+                        $soups[] = $element;
+                        break;
+                    case 'beginning':
+                        $beginning[] = $element;
+                        break;
+                    case 'meats':
+                        $meats[] = $element;
+                        break;
+                    case 'drinks':
+                        $drinks[] = $element;
+                        break;
+                }
+            }
+            // Combina los arreglos en el orden deseado
+            $orderedResponse = array_merge($especialities, $soups, $beginning, $meats, $drinks);
+            $_SESSION["menu_temp"] = $orderedResponse;
+            // Registra el array ordenado en el archivo de registro de errores
+            Responses::response($orderedResponse);
+        } catch (\Throwable $th) {
+            Responses::responseNoDataWhitStatus(404);
         }
-        // Combina los arreglos en el orden deseado
-        $orderedResponse = array_merge($especialities, $soups, $beginning, $meats, $drinks);
-        $_SESSION["menu_temp"] = $orderedResponse;
-        // Registra el array ordenado en el archivo de registro de errores
-        $return = new GetController();
-        Responses::response($orderedResponse);
+
     }
     static public function getItemsNoIncludeOnMenuController($table,$select,$linkTo,$equalTo){
-        $response = new ModelGet(
+        $response = new DAO(
             "SELECT $select
             FROM $table
             WHERE NOT EXISTS (
@@ -58,23 +66,23 @@ class GetController{
                 FROM all_menus
                 WHERE all_menus.contenido = $table.id
                 AND all_menus.$linkTo = :$linkTo)", $linkTo, $equalTo);
-        $result = $response->executeWhitAttributes();
+        $result = $response->getWhitAttributes();
         Responses::response($result);
     }
     static public function getItemsMenu($table, $select, $linkTo, $equalTo, $isConsultFromHome){
-        $response = new ModelGet(
+        $response = new DAO(
             "SELECT $select
             FROM $table JOIN all_menus
             ON items_menu.id = all_menus.contenido
             WHERE all_menus.$linkTo = :$linkTo", ":date", $equalTo);
-        $resultado = $response->executeWhitAttributes();
+        $resultado = $response->getWhitAttributes();
         $resultado2 = array();
         if ($isConsultFromHome) {
             //Esta validación se hace ya que
             //cuando se hace la consulta en el home,
             //si se pueden visualizar las gaseosas
-            $secondResponse = new ModelGet();
-            $resultado2 = $secondResponse->getDataSimpleConsult("items_menu","*","menu_item_type","soft_drinks");
+            $secondResponse = new DAO();
+            $resultado2 = $secondResponse->get("items_menu","*","menu_item_type","soft_drinks");
         }
         $arrayResultado = array_merge($resultado, $resultado2);
         Responses::response($arrayResultado);
