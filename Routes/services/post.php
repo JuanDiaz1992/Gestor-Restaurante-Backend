@@ -1,5 +1,5 @@
 <?php
-require_once "Funciones/Responses.php";
+require_once "utils/Responses.php";
 $data = json_decode(file_get_contents('php://input'), true);
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];

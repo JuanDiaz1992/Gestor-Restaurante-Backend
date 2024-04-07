@@ -1,5 +1,5 @@
 <?php
-require_once "Funciones/Responses.php";
+require_once "utils/Responses.php";
 $table = explode("?",$routesArray[2])[0];
 $select = $_GET["select"]??"*";
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {

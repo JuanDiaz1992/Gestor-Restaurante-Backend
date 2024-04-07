@@ -1,8 +1,8 @@
 <?php
 
 
-require_once "APPS/Model/DAO.php";
-require_once "Funciones/Responses.php";
+require_once "services/crudDbMysql/DAO.php";
+require_once "utils/Responses.php";
 
 class GetController{
     static public function getData($table,$select,$linkTo = null ,$equalTo = null){

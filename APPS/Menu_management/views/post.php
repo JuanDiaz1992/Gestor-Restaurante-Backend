@@ -1,7 +1,7 @@
 <?php
 //Vista para solicitudes post del user
 require_once "APPS/Menu_management/controller/post_controler.php";
-require_once "Funciones/Responses.php";
+require_once "utils/Responses.php";
 $response = new PostController();
 session_id($token);
 session_start();

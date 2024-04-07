@@ -1,5 +1,5 @@
 <?php
-require_once "Funciones/Responses.php";
+require_once "utils/Responses.php";
 class RoutesController{
     public static function index(){
         $routesArray = explode("/",$_SERVER['REQUEST_URI']);

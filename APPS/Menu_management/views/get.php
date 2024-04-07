@@ -1,6 +1,6 @@
 <?php
 require_once "APPS/Menu_management/controller/get_controler.php";
-require_once "Funciones/Responses.php";
+require_once "utils/Responses.php";
 $response = new GetController();
 
 if ($table === "get_menu_index") {

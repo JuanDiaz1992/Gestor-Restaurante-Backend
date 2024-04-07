@@ -1,0 +1,14 @@
+[07-Apr-2024 09:24:17 Europe/Berlin] Aqui
+[07-Apr-2024 09:24:22 Europe/Berlin] 107
+[07-Apr-2024 09:24:22 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Responses::responseNoDataWithStatus() in F:\xampp\htdocs\restaurante\controller\UserController.php:35
+Stack trace:
+#0 F:\xampp\htdocs\restaurante\APPS\User\views\post.php(50): UserController::deleteUser(Array)
+#1 F:\xampp\htdocs\restaurante\Routes\services\post.php(17): require_once('F:\\xampp\\htdocs...')
+#2 F:\xampp\htdocs\restaurante\Routes\routes_controller.php(19): include('F:\\xampp\\htdocs...')
+#3 F:\xampp\htdocs\restaurante\index.php(23): RoutesController::index()
+#4 {main}
+  thrown in F:\xampp\htdocs\restaurante\controller\UserController.php on line 35
+[07-Apr-2024 09:26:07 Europe/Berlin] Aqui
+[07-Apr-2024 09:26:10 Europe/Berlin] 108
+[07-Apr-2024 09:26:37 Europe/Berlin] Aqui
+[07-Apr-2024 09:26:58 Europe/Berlin] 109
