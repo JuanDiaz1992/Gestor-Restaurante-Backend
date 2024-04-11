@@ -60,6 +60,14 @@ class UserController{
             Responses::responseNoDataWhitStatus(404);
         }
     }
+    public static function getAllUsers(){
+        $result = UserServices::getAllUsers();
+        if ($result != null) {
+            Responses::response($result);
+        }else{
+            Responses::responseNoDataWhitStatus(400);
+        }
+    }
 }
 
 

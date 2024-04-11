@@ -63,18 +63,18 @@ class GetController{
             FROM $table
             WHERE NOT EXISTS (
                 SELECT 1
-                FROM all_menus
-                WHERE all_menus.contenido = $table.id
-                AND all_menus.$linkTo = :$linkTo)", $linkTo, $equalTo);
+                FROM items_in_menu_of_day
+                WHERE items_in_menu_of_day.contenido = $table.id
+                AND items_in_menu_of_day.$linkTo = :$linkTo)", $linkTo, $equalTo);
         $result = $response->getWhitAttributes();
         Responses::response($result);
     }
     static public function getItemsMenu($table, $select, $linkTo, $equalTo, $isConsultFromHome){
         $response = new DAO(
             "SELECT $select
-            FROM $table JOIN all_menus
-            ON items_menu.id = all_menus.contenido
-            WHERE all_menus.$linkTo = :$linkTo", ":date", $equalTo);
+            FROM $table JOIN items_in_menu_of_day
+            ON items_menu.id = items_in_menu_of_day.contenido
+            WHERE items_in_menu_of_day.$linkTo = :$linkTo", ":date", $equalTo);
         $resultado = $response->getWhitAttributes();
         $resultado2 = array();
         if ($isConsultFromHome) {

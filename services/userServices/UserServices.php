@@ -10,7 +10,7 @@ class UserServices {
             return null;
         }
 
-        $user = Users::getUser($userName);
+        $user = Users::get($userName,"username");
         if ($user == null) {
             return null;
         }
@@ -63,7 +63,7 @@ class UserServices {
             return null;
         }
         //Se valida primero si el usuario ya existe, si existe se finaliza la ejecución
-        $user = Users::getUser($userName);
+        $user = Users::get($userName,"username");
         if ($user!=null) {
             return null;
         }
@@ -80,13 +80,13 @@ class UserServices {
             $rutaArchivoRelativa = "files/images/sin_imagen.webp";
         }
         $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-        $user = new Users(null, $name, $userName, $password, $type_user, $rutaArchivoRelativa, 1);
+        $user = new Users($userName,$password,$name,$rutaArchivoRelativa,$type_user,1);
         $user->save();
         return $user;
     }
     public static function deleteUserService($data){
         $id = $data["id"];
-        $user = Users::getUser($id);
+        $user = Users::get($id,"id");
         $response = $user->delete();
         if($response){
                 $directoryPath = "files/user_profile/" . $user->getUserName();
@@ -101,7 +101,7 @@ class UserServices {
     }
     public static function updateUserService($data){
         try {
-            $user = Users::getUser($data["id"]);
+            $user = Users::get($data["id"],"id");
             $id = $data['id'];
             $name = $data['name'];
             $type_user = $data['type_user'];
@@ -148,7 +148,7 @@ class UserServices {
                 return false;
             }
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $user = Users::getUser($data["id"]);
+            $user = Users::get($data["id"],"id");
             $user->setPassword($hashedPassword);
             $user->save();
             return true;
@@ -156,6 +156,9 @@ class UserServices {
             return false;
         }
 
+    }
+    public static function getAllUsers(){
+        return Users::all();
     }
 }
 

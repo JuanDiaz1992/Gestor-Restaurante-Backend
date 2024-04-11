@@ -1,7 +1,7 @@
 <?php
 
 
-require_once "Funciones/Responses.php";
+require_once "services/crudDbMysql/DAO.php";
 require_once "utils/Responses.php";
 
 
@@ -46,8 +46,8 @@ class PostController{
         if(!isset($price)){
             $price = 0;
         }
-        $data = array($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$idProfile_user,$amount);
-        $binParams = array("name", "description", "price", "picture", "menu_item_type", "idProfile_user", "amount");
+        $data = array($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$amount);
+        $binParams = array("name", "description", "price", "picture", "menu_item_type", "amount");
         $response = DAO::create($table,$binParams,$data);
         Responses::responseNoDataWhitStatus($response);
     }
@@ -94,7 +94,7 @@ class PostController{
     static public function editItemMenuController($POST,$FILES = ""){
         $rutaArchivoRelativa = "";
         if ($POST["name"] ==="" || $POST["amount"] ==="" || $POST["price"] ==="") {
-            $return->fncResponse("",400,"Datos incompletos");
+            Responses::responseNoDataWhitStatus(400);
         }else{
             if (isset($POST["beforePicture"])) {
                 if($POST["beforePicture"] !== "files/images/sin_imagen.webp"){

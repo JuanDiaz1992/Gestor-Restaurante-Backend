@@ -1,93 +1,64 @@
 <?php
-require_once "models/IPersona.php";
+require_once "models/Bases/BaseITem.php";
 require_once "services/crudDbMysql/DAO.php";
 
-class Users implements IPersona{
-    private $id;
-    private $name;
-    private $userName;
-    private $password;
-    private $typeUser;
-    private $photo;
-    private $idNegocio;
+class Users extends BaseITem{
+    protected $table = "profile_user";
+    protected static $tableStatic = "profile_user";
+    protected $columnBdNoStatic = [
+        "username",
+        "password",
+        "name",
+        "photo",
+        "type_user",
+        "id_negocio",
+        "id"
+    ];
+    protected static $columnBd = [
+        "username",
+        "password",
+        "name",
+        "photo",
+        "type_user",
+        "id_negocio",
+        "id"
+    ];
+    protected $userName;
+    protected $password;
+    protected $name;
+    protected $photo;
+    protected $typeUser;
+    protected $idNegocio;
+    protected $id;
     private $tokenSesion = null;
-    public function __construct($id = null,$name,$userName,$password,$typeUser,$photo,$idNegocio) {
-        $this->id=$id;
-        $this->name = $name;
+    public function __construct($userName,$password,$name,$photo,$typeUser,$idNegocio,$id = null) {
         $this->userName = $userName;
         $this->password = $password;
-        $this->typeUser = $typeUser;
+        $this->name = $name;
         $this->photo = $photo;
+        $this->typeUser = $typeUser;
         $this->idNegocio = $idNegocio;
+        $this->id=$id;
     }
 
-    public static function getUser($identifier = null){
-        if ($identifier !== null) {
-            $userBD = null;
-            if(is_numeric($identifier)){
-                $userBD = DAO::get("profile_user","*","id",$identifier);
-            } else {
-                $userBD = DAO::get("profile_user","*","username",$identifier);
-            }
-            if (count($userBD)>=1) {
-                $user = new Users(
-                    $userBD[0]->id,
-                    $userBD[0]->name,
-                    $userBD[0]->username,
-                    $userBD[0]->password,
-                    $userBD[0]->type_user,
-                    $userBD[0]->photo,
-                    $userBD[0]->id_negocio,
+    public static function all(){
+        $response = new DAO();
+        $result = $response->get(self::$tableStatic,"*");
+        if (!empty($result)) {
+            $users = array();
+            foreach($result as $key => $value){
+                $user = array(
+                    'id' => $value->id,
+                    'username' => $value->username,
+                    'name' => $value->name,
+                    'photo' => $value->photo,
+                    'type_user' => $value->type_user,
                 );
-                return $user;
+                array_push($users, $user);
             }
-        }
-        return null;
-    }
-
-
-
-    public function save(){
-        if ($this->id != null) {
-            $userBd = DAO::update("profile_user",array(
-                "name",
-                "password",
-                "photo",
-                "type_user",
-                "id"),array(
-                $this->name,
-                $this->password,
-                $this->photo,
-                $this->typeUser,
-                $this->id));
+            return $users;
         }else{
-            $userBd = DAO::create("profile_user",array(
-                "username",
-                "password",
-                "name",
-                "photo",
-                "type_user",
-                "id_negocio"),
-                array(
-                    $this->userName,
-                    $this->password,
-                    $this->name,
-                    $this->photo,
-                    $this->typeUser,
-                    $this->idNegocio
-                ),true
-            );
-            $this->id = $userBd['id'];
-            return true;
-        }
-    }
-
-    public function delete(){
-        $response = DAO::delete("profile_user","id",$this->id);
-        if($response == 200){
-            return true;
-        }else{
-            return false;
+            return null;
         }
     }
 
@@ -154,6 +125,7 @@ class Users implements IPersona{
     public function setToken($token){
         $this->token = $token;
     }
+
 }
 
 ?>
