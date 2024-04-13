@@ -158,7 +158,11 @@ class UserServices {
 
     }
     public static function getAllUsers(){
-        return Users::all();
+        $users = Users::all();
+        $data = array_map(function($user) {
+            return $user->toArray();
+        }, $users);
+        return $data;
     }
 }
 

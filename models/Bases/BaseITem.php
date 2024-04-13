@@ -1,5 +1,8 @@
 <?php
 require_once "services/crudDbMysql/DAO.php";
+//Para extender de esta base en la declaración de atributos
+//El id siempre debe estar de último
+//el resto de datos deben ir en el mismo orden que en las columnas de la bd
 class BaseITem{
     protected $table = "";
     protected static $tableStatic = "";
@@ -45,26 +48,68 @@ class BaseITem{
             return false;
         }
     }
-    //En proceso de codificación
+
     public static function all(){
         $response = new DAO();
         $result = $response->get(static::$tableStatic,"*");
         if (!empty($result)) {
             $items = array();
-            foreach($result as $key => $value){
-                $user = array(
-                    'id' => $value->id,
-                    'username' => $value->username,
-                    'name' => $value->name,
-                    'photo' => $value->photo,
-                    'type_user' => $value->type_user,
-                );
-                array_push($users, $user);
+            foreach ($result as $itemData) {
+                $args = [];
+                foreach (static::$columnBd as $column) {
+                    $args[] = is_object($itemData) ? $itemData->$column : (is_array($itemData) ? $itemData[$column] : null);
+                }
+                $item = new static(...$args);
+                $items[] = $item;
             }
             return $items;
         }else{
             return null;
         }
+    }
+
+    public static function filter($firstcondition, $secondCondition, $searchColumn = null, $searchValue = null, $skipData = null){
+
+        $tableStatic = self::$tableStatic;
+        $result = null;
+        if($searchColumn != null && $searchValue != null){
+            $response = new DAO(
+                "SELECT *
+                FROM items_menu JOIN items_in_menu_of_day
+                ON items_menu.id = items_in_menu_of_day.contenido
+                WHERE items_in_menu_of_day.date = :date", ":date", $searchValue);
+            $items = $response->getWhitAttributes();
+        }else{
+            $response = new DAO();
+            $result = $response->get($tableStatic,"*",$firstcondition,$secondCondition);
+            if (!empty($result)) {
+                $items = array();
+                foreach ($result as $itemData) {
+                    $args = [];
+                    foreach (static::$columnBd as $column) {
+                        $args[] = is_object($itemData) ? $itemData->$column : (is_array($itemData) ? $itemData[$column] : null);
+                    }
+                    $item = new static(...$args);
+                    $items[] = $item;
+                }
+            }else{
+                return null;
+        }
+            }
+            return $items;
+
+
+
+    }
+
+    public function toArray(){
+        $attributes = get_object_vars($this);
+        $dataArray = array_values(array_slice($attributes, 2));
+        $arrayResult = [];
+        for ($i = 0; $i < count($this->columnBdNoStatic); $i++) {
+            $arrayResult[$this->columnBdNoStatic[$i]] = $dataArray[$i];
+        }
+        return $arrayResult;
     }
 
 

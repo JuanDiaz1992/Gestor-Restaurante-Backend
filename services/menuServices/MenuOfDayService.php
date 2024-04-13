@@ -69,11 +69,13 @@ class MenuOfDayService{
 
     static public function createMenuService($date){
         try {
+            error_log($date);
             $menuTemp = $_SESSION["menu_temp"];
             $state = 1;
             if (count($menuTemp)>0) {
                 foreach ($menuTemp as $element){
-                    $menuOfDay = new MenuOfDay(null,$element["id"],$date,$state);
+                    error_log($element["id"]);
+                    $menuOfDay = new MenuOfDay($element["id"],$state,$date);
                     $menuOfDay->save();
                 }
                 $_SESSION["menu_temp"] = [];
@@ -89,22 +91,23 @@ class MenuOfDayService{
     static public function getMenuOfDayService($searchValue,$isConsultFromHome){
         try {
             $itemsMenuOfDay = ItemMenu::filter("items_in_menu_of_day", "contenido", "date", $searchValue);
-            $resultado1 = array();
-            if ($itemsMenuOfDay) {
-                $resultado2 = array();
-                //Esta validación se hace ya que
-                //cuando se hace la consulta en el home,
-                //si se pueden visualizar las gaseosas
-                $resultado2 = array();
-                try {
-                    $itemsSofDrintkMEnu = ItemMenu::filter("menu_item_type","soft_drinks");
-                } catch (\Throwable $th) {
-                    $itemsSofDrintkMEnu = null;
+            if (count($itemsMenuOfDay)>0) {
+                $arrayResultado = $itemsMenuOfDay;
+                //Esta validación se hace ya que cuando se hace la consulta en el home, ahí si se pueden visualizar las gaseosas
+                if($isConsultFromHome){
+                    try {
+                        $itemsSofDrintkMEnu = ItemMenu::filter("menu_item_type","soft_drinks");
+                        $data2 = array_map(function($itemSofDrintkMEnu) {
+                            return $itemSofDrintkMEnu->toArray();
+                        }, $itemsSofDrintkMEnu);
+                        $arrayResultado = array_merge($data1, $data2);
+                    } catch (\Throwable $th) {
+                        $data2 = null;
+                    }
                 }
             }
-            foreach($itemsMenuOfDay as $item){
-            }
-            return array_merge($itemsMenuOfDay, $itemsSofDrintkMEnu);
+            error_log(print_r($arrayResultado,true));
+            return $arrayResultado;
         } catch (\Throwable $th) {
             return null;
         }

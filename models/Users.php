@@ -5,6 +5,15 @@ require_once "services/crudDbMysql/DAO.php";
 class Users extends BaseITem{
     protected $table = "profile_user";
     protected static $tableStatic = "profile_user";
+        protected static $columnBd = [
+        "username",
+        "password",
+        "name",
+        "photo",
+        "type_user",
+        "id_negocio",
+        "id"
+    ];
     protected $columnBdNoStatic = [
         "username",
         "password",
@@ -14,15 +23,7 @@ class Users extends BaseITem{
         "id_negocio",
         "id"
     ];
-    protected static $columnBd = [
-        "username",
-        "password",
-        "name",
-        "photo",
-        "type_user",
-        "id_negocio",
-        "id"
-    ];
+
     protected $userName;
     protected $password;
     protected $name;
@@ -39,27 +40,6 @@ class Users extends BaseITem{
         $this->typeUser = $typeUser;
         $this->idNegocio = $idNegocio;
         $this->id=$id;
-    }
-
-    public static function all(){
-        $response = new DAO();
-        $result = $response->get(self::$tableStatic,"*");
-        if (!empty($result)) {
-            $users = array();
-            foreach($result as $key => $value){
-                $user = array(
-                    'id' => $value->id,
-                    'username' => $value->username,
-                    'name' => $value->name,
-                    'photo' => $value->photo,
-                    'type_user' => $value->type_user,
-                );
-                array_push($users, $user);
-            }
-            return $users;
-        }else{
-            return null;
-        }
     }
 
     //*Getters and setters */

@@ -16,8 +16,9 @@ class ItemsMenuService {
         if(!isset($price)){
             $price = 0;
         }
-        $itemMenu = new ItemMenu(null,$name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$amount);
-        return $menuItem->save();
+        $itemMenu = new ItemMenu($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$amount);
+        $menuItem->save();
+        return $menuItem;
     }
 
 

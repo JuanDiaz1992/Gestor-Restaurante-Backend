@@ -1,0 +1,22 @@
+[13-Apr-2024 04:41:47 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'gestion_restaurante_mysql.all_menus' doesn't exist in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php:34
+Stack trace:
+#0 F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php(34): PDOStatement->execute()
+#1 F:\xampp\htdocs\restaurante\services\crudDbMysql\DAO.php(87): CrudModel->executeWhitAttributes()
+#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(135): DAO::delete('all_menus', 'id', 2370)
+#3 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(53): PostController::deleteItemFromBd('all_menus', 2370)
+#4 F:\xampp\htdocs\restaurante\Routes\services\post.php(21): require_once('F:\\xampp\\htdocs...')
+#5 F:\xampp\htdocs\restaurante\Routes\routes_controller.php(19): include('F:\\xampp\\htdocs...')
+#6 F:\xampp\htdocs\restaurante\index.php(23): RoutesController::index()
+#7 {main}
+  thrown in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php on line 34
+[13-Apr-2024 04:42:27 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'gestion_restaurante_mysql.all_menus' doesn't exist in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php:34
+Stack trace:
+#0 F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php(34): PDOStatement->execute()
+#1 F:\xampp\htdocs\restaurante\services\crudDbMysql\DAO.php(111): CrudModel->executeWhitAttributes()
+#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(127): DAO::update('all_menus', Array, Array, 2)
+#3 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(37): PostController::changeState('all_menus', 0, 2370, 0)
+#4 F:\xampp\htdocs\restaurante\Routes\services\post.php(21): require_once('F:\\xampp\\htdocs...')
+#5 F:\xampp\htdocs\restaurante\Routes\routes_controller.php(19): include('F:\\xampp\\htdocs...')
+#6 F:\xampp\htdocs\restaurante\index.php(23): RoutesController::index()
+#7 {main}
+  thrown in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php on line 34

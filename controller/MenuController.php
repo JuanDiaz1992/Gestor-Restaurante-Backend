@@ -17,7 +17,7 @@ class MenuController {
         if ($response != null) {
             Responses::response($response);
         }else{
-            Responses::responseNoDataWhitStatus(400);
+            Responses::responseNoDataWhitStatus(404);
         }
     }
 
@@ -41,6 +41,7 @@ class MenuController {
 
     public static function getMenuOfDay($date,$isConsultFromHome){
         $response = MenuOfDayService::getMenuOfDayService($date,$isConsultFromHome);
+        error_log(print_r($response,true));
         if ($response != null) {
             Responses::response($response);
         }else{

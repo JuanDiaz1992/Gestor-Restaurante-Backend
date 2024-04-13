@@ -17,7 +17,7 @@ class UserController{
             );
             Responses::response($response);
         } else {
-            Responses::responseNoDataWithStatus(404);
+            Responses::responseNoDataWhitStatus(404);
         }
     }
     public static function createUser($data){
