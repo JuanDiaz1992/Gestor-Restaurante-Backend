@@ -56,6 +56,7 @@ class MenuOfDay extends BaseITem{
         return $this->date;
     }
 
+
 }
 
 

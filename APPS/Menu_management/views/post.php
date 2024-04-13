@@ -33,11 +33,12 @@ if($tokenDecode->idSesion){
         $table = "all_menus";
         $response -> addToMenu($table,$data["id"],$data["idMEnu"],$data["dateTime"]);
     }else if(isset($data["supend_item_menu"])){
-        $table = "all_menus";
-        $response -> changeState($table,$data["idMenu"],$data["id"],$data["state"]);
+        MenuController::updateItemFromMenuOfDay($data["id"],$data["state"]);
     }
     else if(isset($_POST["edit_item_menu"])){
-        $response ->editItemMenuController($_POST,$_FILES);
+        $data = $_POST;
+        $data['photo'] = isset($_FILES['photo']) ? $_FILES['photo'] : '';
+        MenuController::updateItemMenu($data);
     }
 
 
@@ -49,11 +50,7 @@ if($tokenDecode->idSesion){
         $table = "items_menu";
         $response -> deleteItemFromBd($table, $data["item"],$data["picture"]);
     }else if(isset($data["delete_item_menu_bd"]) && $data["delete_item_menu_bd"] == 1){
-        $table = "all_menus";
-        $response -> deleteItemFromBd($table, $data["id"]);
-    }else if(isset($data["delete_all_menu"])&& $data["delete_all_menu"] == 1){
-        $table = "menu";
-        $response -> deleteItemFromBd($table,$data["idMenu"]);
+        MenuController::deleteItemFromMenuOfDay($data["id"]);
     }else if(isset($data["delete_menu"])){
         $table = "menu";
         $response -> deleteItemFromBd($table,$data["idMenu"]);

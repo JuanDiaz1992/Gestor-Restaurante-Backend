@@ -1,22 +1,52 @@
-[13-Apr-2024 04:41:47 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'gestion_restaurante_mysql.all_menus' doesn't exist in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php:34
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php(34): PDOStatement->execute()
-#1 F:\xampp\htdocs\restaurante\services\crudDbMysql\DAO.php(87): CrudModel->executeWhitAttributes()
-#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(135): DAO::delete('all_menus', 'id', 2370)
-#3 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(53): PostController::deleteItemFromBd('all_menus', 2370)
-#4 F:\xampp\htdocs\restaurante\Routes\services\post.php(21): require_once('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\Routes\routes_controller.php(19): include('F:\\xampp\\htdocs...')
-#6 F:\xampp\htdocs\restaurante\index.php(23): RoutesController::index()
-#7 {main}
-  thrown in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php on line 34
-[13-Apr-2024 04:42:27 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'gestion_restaurante_mysql.all_menus' doesn't exist in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php:34
-Stack trace:
-#0 F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php(34): PDOStatement->execute()
-#1 F:\xampp\htdocs\restaurante\services\crudDbMysql\DAO.php(111): CrudModel->executeWhitAttributes()
-#2 F:\xampp\htdocs\restaurante\APPS\Menu_management\controller\post_controler.php(127): DAO::update('all_menus', Array, Array, 2)
-#3 F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php(37): PostController::changeState('all_menus', 0, 2370, 0)
-#4 F:\xampp\htdocs\restaurante\Routes\services\post.php(21): require_once('F:\\xampp\\htdocs...')
-#5 F:\xampp\htdocs\restaurante\Routes\routes_controller.php(19): include('F:\\xampp\\htdocs...')
-#6 F:\xampp\htdocs\restaurante\index.php(23): RoutesController::index()
-#7 {main}
-  thrown in F:\xampp\htdocs\restaurante\services\crudDbMysql\CrudModel.php on line 34
+[13-Apr-2024 08:42:57 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 70
+[13-Apr-2024 08:42:57 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 71
+[13-Apr-2024 08:43:30 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 70
+[13-Apr-2024 08:43:30 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 71
+[13-Apr-2024 08:43:48 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:43:48 Europe/Berlin] 2
+[13-Apr-2024 08:43:48 Europe/Berlin] 110
+[13-Apr-2024 08:43:49 Europe/Berlin] 108
+[13-Apr-2024 08:43:49 Europe/Berlin] 58
+[13-Apr-2024 08:43:49 Europe/Berlin] 64
+[13-Apr-2024 08:43:49 Europe/Berlin] 105
+[13-Apr-2024 08:44:17 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 70
+[13-Apr-2024 08:44:17 Europe/Berlin] PHP Warning:  Undefined variable $response in F:\xampp\htdocs\restaurante\controller\MenuController.php on line 71
+[13-Apr-2024 08:45:48 Europe/Berlin] PHP Warning:  Undefined array key "idMenu" in F:\xampp\htdocs\restaurante\APPS\Menu_management\views\post.php on line 56
+[13-Apr-2024 08:47:50 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:47:50 Europe/Berlin] 4
+[13-Apr-2024 08:47:50 Europe/Berlin] 110
+[13-Apr-2024 08:47:50 Europe/Berlin] 55
+[13-Apr-2024 08:47:50 Europe/Berlin] 75
+[13-Apr-2024 08:47:50 Europe/Berlin] 63
+[13-Apr-2024 08:47:50 Europe/Berlin] 105
+[13-Apr-2024 08:49:09 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:49:09 Europe/Berlin] 168
+[13-Apr-2024 08:49:09 Europe/Berlin] 108
+[13-Apr-2024 08:49:09 Europe/Berlin] 75
+[13-Apr-2024 08:49:09 Europe/Berlin] 68
+[13-Apr-2024 08:49:09 Europe/Berlin] 138
+[13-Apr-2024 08:51:21 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:51:21 Europe/Berlin] 130
+[13-Apr-2024 08:51:21 Europe/Berlin] 75
+[13-Apr-2024 08:51:21 Europe/Berlin] 67
+[13-Apr-2024 08:51:21 Europe/Berlin] 115
+[13-Apr-2024 08:52:26 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:52:26 Europe/Berlin] 5
+[13-Apr-2024 08:52:26 Europe/Berlin] 108
+[13-Apr-2024 08:52:26 Europe/Berlin] 58
+[13-Apr-2024 08:52:26 Europe/Berlin] 64
+[13-Apr-2024 08:52:26 Europe/Berlin] 105
+[13-Apr-2024 08:53:53 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:53:53 Europe/Berlin] 130
+[13-Apr-2024 08:53:53 Europe/Berlin] 75
+[13-Apr-2024 08:53:53 Europe/Berlin] 68
+[13-Apr-2024 08:53:53 Europe/Berlin] 138
+[13-Apr-2024 08:54:42 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 19
+[13-Apr-2024 08:54:42 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 21
+[13-Apr-2024 08:54:42 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 23
+[13-Apr-2024 08:54:42 Europe/Berlin] PHP Warning:  Undefined variable $module in F:\xampp\htdocs\restaurante\Routes\services\get.php on line 25
+[13-Apr-2024 08:55:12 Europe/Berlin] 2024-04-13
+[13-Apr-2024 08:55:12 Europe/Berlin] 130
+[13-Apr-2024 08:55:12 Europe/Berlin] 75
+[13-Apr-2024 08:55:12 Europe/Berlin] 68
+[13-Apr-2024 08:55:12 Europe/Berlin] 138

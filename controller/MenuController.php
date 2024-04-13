@@ -41,9 +41,35 @@ class MenuController {
 
     public static function getMenuOfDay($date,$isConsultFromHome){
         $response = MenuOfDayService::getMenuOfDayService($date,$isConsultFromHome);
-        error_log(print_r($response,true));
         if ($response != null) {
             Responses::response($response);
+        }else{
+            Responses::responseNoDataWhitStatus(400);
+        }
+    }
+
+    public static function updateItemFromMenuOfDay($id,$state){
+        $response = MenuOfDayService::updateItemFromMenuOfDayService($id,$state);
+        if ($response == true) {
+            Responses::responseNoDataWhitStatus(200);
+        }else{
+            Responses::responseNoDataWhitStatus(400);
+        }
+    }
+
+    public static function updateItemMenu($data){
+        $response = ItemsMenuService::updateItemMenuService($data);
+        if ($response == true) {
+            Responses::responseNoDataWhitStatus(200);
+        }else{
+            Responses::responseNoDataWhitStatus(400);
+        }
+    }
+
+    public static function deleteItemFromMenuOfDay($id){
+        $response = MenuOfDayService::deleteItemFromMenuOfDayService($id);
+        if ($response == true) {
+            Responses::responseNoDataWhitStatus(200);
         }else{
             Responses::responseNoDataWhitStatus(400);
         }

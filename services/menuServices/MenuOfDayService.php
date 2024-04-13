@@ -66,7 +66,6 @@ class MenuOfDayService{
         }
     }
 
-
     static public function createMenuService($date){
         try {
             error_log($date);
@@ -90,26 +89,53 @@ class MenuOfDayService{
 
     static public function getMenuOfDayService($searchValue,$isConsultFromHome){
         try {
-            $itemsMenuOfDay = ItemMenu::filter("items_in_menu_of_day", "contenido", "date", $searchValue);
+            $itemsMenuOfDay = ItemMenu::select_related(MenuOfDay::getTableStatic(),MenuOfDay::getColumnsBd(0),MenuOfDay::getColumnsBd(2),$searchValue);
             if (count($itemsMenuOfDay)>0) {
-                $arrayResultado = $itemsMenuOfDay;
+                $arrayResultado =  $itemsMenuOfDay;
                 //Esta validación se hace ya que cuando se hace la consulta en el home, ahí si se pueden visualizar las gaseosas
-                if($isConsultFromHome){
+                if($isConsultFromHome == true){
                     try {
-                        $itemsSofDrintkMEnu = ItemMenu::filter("menu_item_type","soft_drinks");
+                        $itemsSofDrintkMEnu = ItemMenu::filter([ItemMenu::getColumnsBd(4) => "soft_drinks"]);
                         $data2 = array_map(function($itemSofDrintkMEnu) {
                             return $itemSofDrintkMEnu->toArray();
                         }, $itemsSofDrintkMEnu);
-                        $arrayResultado = array_merge($data1, $data2);
+                        $arrayResultado = array_merge($itemsMenuOfDay, $data2);
                     } catch (\Throwable $th) {
                         $data2 = null;
                     }
                 }
-            }
-            error_log(print_r($arrayResultado,true));
+            ;
             return $arrayResultado;
+            }else{
+                return null;
+            }
+
         } catch (\Throwable $th) {
             return null;
+        }
+
+    }
+
+    static public function updateItemFromMenuOfDayService($id,$state){
+        try {
+            $itemsMenuOfDay = MenuOfDay::get($id,"id");
+            $itemsMenuOfDay->setState($state);
+            $itemsMenuOfDay->save();
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+
+    }
+
+    static public function deleteItemFromMenuOfDayService($id){
+        try {
+            $item = MenuOfDay::get($id,"id");
+            $item->delete();
+            return true;
+        } catch (\Throwable $th) {
+            return false;
         }
 
     }

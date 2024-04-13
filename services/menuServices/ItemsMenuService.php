@@ -22,36 +22,42 @@ class ItemsMenuService {
     }
 
 
-    static public function updateItemMenuService($POST,$FILES = ""){
-        $rutaArchivoRelativa = "";
-        if ($POST["name"] ==="" || $POST["amount"] ==="" || $POST["price"] ==="") {
+    static public function updateItemMenuService($data){
+        try {
+            $photo = $data["photo"];
+            $rutaArchivoRelativa = "";
+            $menuItem = ItemMenu::get($data['idItem'] ,"id");
+            if ($data["name"] ==="" || $data["amount"] ==="" || $data["price"] ==="") {
+                return false;
+            }else{
+                if (isset($photo['name'])) {
+                    if($menuItem->getPicture() !== "files/images/sin_imagen.webp" && $menuItem->getPicture() != null){
+                        unlink($data["beforePicture"]); //Elimina el archivo anterior de la imagen
+                    }
+                    $carpetaDestino = "files/images/MenuItems";
+                    $nombreArchivo = $photo['name'];
+                    $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
+                    if (!is_dir($carpetaDestino)) {
+                        mkdir($carpetaDestino, 0777, true);
+                    }
+                    $rutaArchivoRelativa = 'files/images/MenuItems/' . $nombreArchivo;
+                    move_uploaded_file($photo['tmp_name'], $rutaArchivo);
+                }
+                $menuItem->setName($data["name"]);
+                $menuItem->setDescription($data["description"]);
+                $menuItem->setPrice($data["price"]);
+                $menuItem->setMenuItemType($data["menu_item_type"]);
+                $menuItem->setAmount($data["amount"]);
+                if ($rutaArchivoRelativa!=="") {
+                    $menuItem->setPicture($rutaArchivoRelativa);
+                }
+                $menuItem->save();
+                return true;
+            }
+        } catch (\Throwable $th) {
             return false;
-        }else{
-            $menuItem = ItemMenu::get($POST["idItem"]);
-            if ($menuItem->setPicture() != null || $menuItem->setPicture() != "") {
-                if($menuItem->setPicture() !== "files/images/sin_imagen.webp"){
-                    unlink($POST["beforePicture"]); //Elimina el archivo anterior de la imagen
-                }
-                $photo = $FILES['photo'];
-                $carpetaDestino = "files/images/MenuItems";
-                $nombreArchivo = $photo['name'];
-                $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
-                if (!is_dir($carpetaDestino)) {
-                    mkdir($carpetaDestino, 0777, true);
-                }
-                $rutaArchivoRelativa = 'files/images/MenuItems/' . $nombreArchivo;
-                move_uploaded_file($photo['tmp_name'], $rutaArchivo);
-            }
-            $menuItem->setName($POST["name"]);
-            $menuItem->setDescription($POST["description"]);
-            $menuItem->setPrice($POST["price"]);
-            $menuItem->setMenuItemType($POST["menu_item_type"]);
-            $menuItem->setAmount($POST["amount"]);
-            if ($rutaArchivoRelativa!=="") {
-                $menuItem->setPicture($rutaArchivoRelativa);
-            }
-            return $menuItem->save();
         }
+
     }
 
 

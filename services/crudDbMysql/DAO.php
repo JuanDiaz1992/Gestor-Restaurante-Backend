@@ -54,22 +54,37 @@ class DAO extends CrudModel{
 
     //GET
     public static function get($table,$select,$binParams = null,$param = null){
+
         if ($binParams === null) {
             $sql = "SELECT $select FROM $table";
-            $consutl = new DAO($sql);
+            $consult = new DAO($sql);
         }else{
-            $sql = "SELECT $select FROM $table WHERE $binParams = :$binParams";
-            $consutl = new DAO($sql, $binParams , $param);
+            if(is_array($param) && is_array($binParams) && count($param) == count($binParams)){
+                $conditions = [];
+                $paramsToBind = [];
+                // Crear las condiciones de la consulta WHERE y los parámetros a enlazar
+                foreach ($binParams as $index => $binParam) {
+                    $conditions[] = "$binParam = :$binParam";
+                    $paramsToBind[":$binParam"] = $param[$index];
+                }
+                $conditionStr = implode(" AND ", $conditions);
+                $sql = "SELECT $select FROM $table WHERE $conditionStr";
+                $consult = new DAO($sql,$binParams,$param);
+
+            }else{
+                $sql = "SELECT $select FROM $table WHERE $binParams = :$binParams";
+                $consult = new DAO($sql, $binParams , $param);
+            }
+
         }
-        return $consutl->getWhitAttributes();
+        return $consult->getWhitAttributes();
     }
-    public function getWhitAttributes($binParam = null){
+    public function getWhitAttributes(){
         $conectionBd = Connection::connect();
         $stmt = $conectionBd->prepare($this->sentenceSql);
         if ($this->binnParams != null) {
-            if(is_array($binParam)){
-                $countArray = count($this->binnParams);
-                for ($i=0; $i < $countArray ; $i++) {
+            if(is_array($this->binnParams)){
+                for ($i=0; $i < count($this->binnParams) ; $i++) {
                     $stmt->bindParam($this->binnParams[$i], $this->params[$i]);
                 }
             } else {

@@ -101,21 +101,21 @@ class UserServices {
     }
     public static function updateUserService($data){
         try {
-            $user = Users::get($data["id"],"id");
             $id = $data['id'];
             $name = $data['name'];
             $type_user = $data['type_user'];
             $userName = $data['username'];
             $beforePicture = $data['beforePicture'];
             $photo = $data["photo"];
+            $user = Users::get($id,"id");
             if (!preg_match('/^[a-zA-Z\s]+$/', $name) || !preg_match('/^[a-zA-Z0-9]+$/', $type_user)) {
                     return false;
                 }
 
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
-                if (isset($beforePicture)) {
-                    if($beforePicture !== "files/images/sin_imagen.webp"){
-                        unlink($beforePicture); //Elimina el archivo anterior de la imagen
+                if ($menuItem->getPicture()) {
+                    if($menuItem->getPicture() !== "files/images/sin_imagen.webp"){
+                        unlink($menuItem->getPicture()); //Elimina el archivo anterior de la imagen
                     }}
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
