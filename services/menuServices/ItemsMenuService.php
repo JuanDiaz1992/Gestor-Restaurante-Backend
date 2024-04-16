@@ -1,6 +1,16 @@
 <?php
+require_once "models/ItemMenu.php";
+
 class ItemsMenuService {
-    static public function createItemMenuService($table,$name,$description,$price,$photo,$menu_item_type,$idProfile_user,$amount){
+    static public function createItemMenuService($data){
+        $name = $data["name"];
+        $description = $data["description"];
+        $price = $data["price"];
+        $photo = $data['photo'];
+        $menu_item_type = $data["menu_item_type"];
+        $amount = isset($data["amount"])? $data["amount"] : 0; ;
+
+
         if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
             $carpetaDestino = "files/images/MenuItems";
             $nombreArchivo = $photo['name'];
@@ -17,10 +27,9 @@ class ItemsMenuService {
             $price = 0;
         }
         $itemMenu = new ItemMenu($name,$description,$price,$rutaArchivoRelativa,$menu_item_type,$amount);
-        $menuItem->save();
-        return $menuItem;
+        $itemMenu->save();
+        return $itemMenu;
     }
-
 
     static public function updateItemMenuService($data){
         try {
@@ -60,22 +69,42 @@ class ItemsMenuService {
 
     }
 
-
     static public function deleteItemMenuService($id){
         try {
             $menuItem = ItemMenu::get($id);
-            if($menuItem->setPicture() !== "files/images/sin_imagen.webp" && $menuItem->setPicture() !== null ){
-                unlink($menuItem->setPicture()); //Elimina el archivo anterior de la imagen
+            if($menuItem->getPicture() !== "files/images/sin_imagen.webp" && $menuItem->getPicture() !== null ){
+                unlink($menuItem->getPicture()); //Elimina el archivo anterior de la imagen
             }
-            return $menuItem->delete();
+            $menuItem->delete();
+            return true;
         } catch (Exception $e) {
             return false;
         }
     }
 
-
     static public function getAllItemsMenuService(){
-        return ItemMenu::all();
+        try {
+            $items = ItemMenu::all();
+            $data = array_map(function($item) {
+                return $item->toArray();
+            }, $items);
+            return $data;
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
+    static public function getEspecificItemsService($param){
+        try {
+            $items = ItemMenu::filter(["menu_item_type"=>$param]);
+            $data = array_map(function($item) {
+                return $item->toArray();
+            }, $items);
+            return $data;
+        } catch (\Throwable $th) {
+            return null;
+        }
+
     }
 }
 

@@ -15,10 +15,8 @@
             $token= array(
                 "iat"=> $time,
                 "exp" => $time + (60*60*24), //Esto dice que a la fecha actual le sume 24 horas
-                "data"=> [
-                    "id"=>$id,
-                    "typeUser"=>$typeUser
-                ],
+                "idUser"=>$id,
+                "typeUser"=>$typeUser,
                 "idSesion"=>$new_id
             );
             return  $token;
@@ -36,7 +34,7 @@
                 }
                 return $decoded;
             } catch (Exception $e) {
-                return;
+                throw new Exception("Invalid token: " . $e->getMessage());
             }
         }
     }

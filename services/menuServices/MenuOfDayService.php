@@ -66,14 +66,29 @@ class MenuOfDayService{
         }
     }
 
+    static public function deleteItemTemporalService($id){
+        try {
+            $tempArray = array();
+            foreach($_SESSION["menu_temp"] as  $key => $existingItem){
+                if($existingItem["id"]!=$id){
+                    array_push($tempArray, $existingItem);
+                }
+            }
+            unset($_SESSION["menu_temp"]);
+            $_SESSION["menu_temp"] = $tempArray;
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+    }
+
     static public function createMenuService($date){
         try {
-            error_log($date);
             $menuTemp = $_SESSION["menu_temp"];
             $state = 1;
             if (count($menuTemp)>0) {
                 foreach ($menuTemp as $element){
-                    error_log($element["id"]);
                     $menuOfDay = new MenuOfDay($element["id"],$state,$date);
                     $menuOfDay->save();
                 }
@@ -136,6 +151,49 @@ class MenuOfDayService{
             return true;
         } catch (\Throwable $th) {
             return false;
+        }
+
+    }
+
+    static public function deleteItemService($date){
+        try {
+            $listMenu = MenuOfDay::filter([MenuOfDay::getColumnsBd(2) => $date]);
+            foreach($listMenu as $itemMenu){
+                $itemMenu->delete();
+            }
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+
+    }
+
+    static public function addToMenuService($data){
+        try {
+            $item = ItemMenu::get($data["id"],"id");
+            $state = 1;
+            if($item != null){
+                $menuOfDay = new MenuOfDay($item->getId(),$state,$data["date"]);
+                $menuOfDay->save();
+            }
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+
+    }
+
+    static public function ItemsNoIncludeOnMenuService($date){
+        try {
+            $items = MenuOfDay::select_no_related(
+                ItemMenu::getTableStatic(),
+                MenuOfDay::getColumnsBd(0),
+                MenuOfDay::getColumnsBd(2),
+                $date);
+            return $items;
+        } catch (\Throwable $th) {
+            return null;
         }
 
     }

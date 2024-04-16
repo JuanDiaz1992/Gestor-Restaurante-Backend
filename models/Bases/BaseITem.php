@@ -93,6 +93,22 @@ class BaseITem{
         }
     }
 
+    public static function select_no_related($firstcondition, $secondCondition, $searchColumn = null, $searchValue = null){
+        $tableStatic = static::$tableStatic;
+        if($searchColumn != null && $searchValue != null){
+            $response = new DAO(
+                "SELECT *
+                FROM $firstcondition
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM $tableStatic
+                    WHERE $tableStatic.$secondCondition = $firstcondition.id
+                    AND $tableStatic.$searchColumn = :$searchColumn)", $searchColumn, $searchValue);
+            $result = $response->getWhitAttributes();
+            return $result;
+        }
+    }
+
     //all devuelve un array de objetos
     public static function filter($conditions){
         $tableStatic = static::$tableStatic;

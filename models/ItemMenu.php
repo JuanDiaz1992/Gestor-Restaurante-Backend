@@ -45,39 +45,6 @@ class ItemMenu extends BaseITem{
         $this->id = $id;
     }
 
-    // public static function filter($firstcondition, $secondCondition, $searchColumn = null, $searchValue = null, $skipData = null){
-    //     $tableStatic = self::$tableStatic;
-    //     $result = null;
-    //     if($searchColumn != null && $searchColumn != null && $searchValue != null){
-    //         $response = new DAO(
-    //             "SELECT *
-    //             FROM $tableStatic JOIN $firstcondition
-    //             ON $tableStatic.id = $firstcondition.$secondCondition
-    //             WHERE $firstcondition.$searchColumn = :$searchColumn", ":".$searchColumn, $searchValue);
-    //         $result = $response->getWhitAttributes();
-    //     }else{
-    //         $response = new DAO();
-    //         $result = $response->get($tableStatic,"*",$firstcondition,$secondCondition);
-    //         $querySet = array();
-    //         }
-    //     foreach($result as $element){
-    //         $item = new ItemMenu(
-    //             $element->id,
-    //             $element->name,
-    //             $element->description,
-    //             $element->price,
-    //             $element->picture,
-    //             $element->menu_item_type,
-    //             $element->amount,
-    //             $element->date
-    //         );
-    //         $querySet[] = $item;
-    //         return $querySet;
-    //     }
-
-    // }
-
-
     //*Getters and setters */
     // Getters
     public function getId() {

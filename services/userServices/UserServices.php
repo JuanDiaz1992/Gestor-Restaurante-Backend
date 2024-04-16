@@ -31,18 +31,12 @@ class UserServices {
     public static function logoutService($tokenCodifiqued) {
         try{
             $token = TokenService::decodeToken($tokenCodifiqued);
-            session_id($token->idSesion);
-            session_start();
             session_destroy();
             session_unset();
             return true;
         }catch(Exception $e){
             return false;
         }
-    }
-    public static function isLoggedInService() {
-        // Verificar si el usuario está autenticado
-        return isset($_SESSION['user_id']);
     }
     public static function createUserService($data){
         $idNegocio = $data['id_business'];
@@ -113,9 +107,9 @@ class UserServices {
                 }
 
             if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
-                if ($menuItem->getPicture()) {
-                    if($menuItem->getPicture() !== "files/images/sin_imagen.webp"){
-                        unlink($menuItem->getPicture()); //Elimina el archivo anterior de la imagen
+                if ($user->getPhoto()) {
+                    if($user->getPhoto() !== "files/images/sin_imagen.webp"){
+                        unlink($user->getPhoto()); //Elimina el archivo anterior de la imagen
                     }}
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
