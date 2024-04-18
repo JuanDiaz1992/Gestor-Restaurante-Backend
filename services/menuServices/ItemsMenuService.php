@@ -33,13 +33,13 @@ class ItemsMenuService {
 
     static public function updateItemMenuService($data){
         try {
-            $photo = $data["photo"];
             $rutaArchivoRelativa = "";
             $menuItem = ItemMenu::get($data['idItem'] ,"id");
             if ($data["name"] ==="" || $data["amount"] ==="" || $data["price"] ==="") {
                 return false;
             }else{
-                if (isset($photo['name'])) {
+                if (isset($data["photo"]['name'])) {
+                    $photo = $data["photo"];
                     if($menuItem->getPicture() !== "files/images/sin_imagen.webp" && $menuItem->getPicture() != null){
                         unlink($data["beforePicture"]); //Elimina el archivo anterior de la imagen
                     }

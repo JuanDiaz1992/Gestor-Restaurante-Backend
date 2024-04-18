@@ -1,7 +1,8 @@
 <?php
 require_once "utils/Responses.php";
-class RoutesController{
-    public static function index(){
+
+class Routes{
+    public static function main(){
         $routesArray = explode("/",$_SERVER['REQUEST_URI']);
         $routesArray = array_filter($routesArray);
         if (count($routesArray) == 0) {
@@ -22,4 +23,6 @@ class RoutesController{
         return;
     }
 }
+
+
 ?>

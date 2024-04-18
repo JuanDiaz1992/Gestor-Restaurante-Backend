@@ -6,16 +6,7 @@ class UserController{
     public static function login($userName, $password){
         $user = UserServices::loginService($userName, $password);
         if ($user != null) {
-            $response = array(
-                'is_logged_in' => true,
-                'token' => $user->getToken(),
-                'username' => $user->getUserName(),
-                'name' => $user->getName(),
-                'type_user' => $user->getTypeUser(),
-                'photo' => $user->getPhoto(),
-                'id_user' => $user->getId()
-            );
-            Responses::response($response);
+            Responses::response($user);
         } else {
             Responses::responseNoDataWhitStatus(404);
         }

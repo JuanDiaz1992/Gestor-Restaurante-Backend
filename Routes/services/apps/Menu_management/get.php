@@ -11,7 +11,7 @@ class MenuGetRoutes{
 
     public function handleRequest($table, $token = null, $params) {
         if ($table === "get_menu_index") {
-            MenuController::getMenuOfDay($_GET["equalTo"], true);
+            MenuController::getMenuOfDay($params["equalTo"], true);
         } else {
             try {
                 // Autenticar primero

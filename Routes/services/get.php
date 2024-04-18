@@ -1,9 +1,11 @@
 <?php
-require_once "midelwares/AuthMiddleware.php";
+require_once "middlewares/AuthMiddleware.php";
 require_once "utils/Responses.php";
 $table = explode("?",$routesArray[2])[0];
 $select = $_GET["select"]??"*";
 $token = null;
+$module = null;
+
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'];
     if (strpos($authorizationHeader, 'Token') === 0) {
@@ -18,18 +20,32 @@ if (isset($_SERVER['HTTP_MODULE'])) {
 }else{
     Responses::responseNoDataWhitStatus(404);
 }
-if($module == 'user'){
-    require_once "APPS/User/get.php";
-    $userGetRoutes = new UserGetRoutes(new AuthMiddleware());
-    $userGetRoutes->handleRequest($table, $token, $_GET);
-}else if($module == 'business'){
-    require_once "APPS/Business/views/get.php";
-}else if($module == 'inventory'){
-    require_once "APPS/Inventory/views/get.php";
-}else if($module == 'menu_management'){
-    require_once "APPS/Menu_management/get.php";
-    $menuGetRoutes = new MenuGetRoutes(new AuthMiddleware());
-    $menuGetRoutes->handleRequest($table, $token, $_GET);
+
+switch ($module) {
+    case 'user':
+        require_once "routes/services/apps/User/get.php";
+        $route = new UserGetRoutes(new AuthMiddleware());
+        $route->handleRequest($table, $token, $_GET);
+        break;
+    case 'business':
+        require_once "routes/services/apps/Business/get.php";
+        $route = new BusinessGetRoutes(new AuthMiddleware());
+        $route->handleRequest($table, $token, $_GET);
+        break;
+    case 'inventory':
+        require_once "routes/services/apps/Inventory/get.php";
+        $route = new InventoryGetRoutes(new AuthMiddleware());
+        $route->handleRequest($table, $token, $_GET);
+        break;
+    case 'menu_management':
+        require_once "routes/services/apps/Menu_management/get.php";
+        $route = new MenuGetRoutes(new AuthMiddleware());
+        $route->handleRequest($table, $token, $_GET);
+        break;
+    default:
+        Responses::responseNoDataWhitStatus(404);
+        break;
 }
+
 
 ?>

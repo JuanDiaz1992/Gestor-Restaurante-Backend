@@ -26,7 +26,17 @@ class UserServices {
         session_id($tokenGerator["idSesion"]); //se inicia sesión con el id de sesión generado en el token
         session_set_cookie_params(1800);
         session_start();
-        return $user;
+        $response = array(
+            'is_logged_in' => true,
+            'token' => $user->getToken(),
+            'username' => $user->getUserName(),
+            'name' => $user->getName(),
+            'type_user' => $user->getTypeUser(),
+            'photo' => $user->getPhoto(),
+            'id_user' => $user->getId(),
+            'id_negocio'=>$user->getIdNegocio()
+        );
+        return $response;
     }
     public static function logoutService($tokenCodifiqued) {
         try{
@@ -85,7 +95,7 @@ class UserServices {
         if($response){
                 $directoryPath = "files/user_profile/" . $user->getUserName();
                 if (is_dir($directoryPath)) {
-                    require_once "Funciones/DeleteDirectory.php";
+                    require_once "utils/DeleteDirectory.php";
                     deleteDirectory($directoryPath);
                     }
             return true;
@@ -100,17 +110,15 @@ class UserServices {
             $type_user = $data['type_user'];
             $userName = $data['username'];
             $beforePicture = $data['beforePicture'];
-            $photo = $data["photo"];
             $user = Users::get($id,"id");
             if (!preg_match('/^[a-zA-Z\s]+$/', $name) || !preg_match('/^[a-zA-Z0-9]+$/', $type_user)) {
                     return false;
                 }
-
-            if(isset($photo['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
-                if ($user->getPhoto()) {
-                    if($user->getPhoto() !== "files/images/sin_imagen.webp"){
-                        unlink($user->getPhoto()); //Elimina el archivo anterior de la imagen
-                    }}
+            if(isset($data["photo"]['name'])){ //Si el formulario incluye una imagen, la agrega, sino se pone la img por defecto
+                $photo = $data["photo"];
+                if($user->getPhoto() !== "files/images/sin_imagen.webp"){
+                    unlink($user->getPhoto()); //Elimina el archivo anterior de la imagen
+                }
                 $carpetaDestino = "files/user_profile/" . $userName;
                 $nombreArchivo = $photo['name'];
                 $rutaArchivo = $carpetaDestino . DIRECTORY_SEPARATOR . $nombreArchivo;
@@ -119,11 +127,11 @@ class UserServices {
                 }
                 $beforePicture= 'files/user_profile/' . $userName .'/'. $nombreArchivo;
                 move_uploaded_file($photo['tmp_name'], $rutaArchivo);
+                $user->setPhoto($beforePicture);
             }
             $user->setName($name);
             $user->setTypeUser($type_user);
             $user->setUserName($userName);
-            $user->setPhoto($beforePicture);
             $user->save();
             return true;
         } catch (Exeption $e) {

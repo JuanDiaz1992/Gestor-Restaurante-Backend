@@ -131,10 +131,10 @@ class BaseITem{
                 $items[] = $item;
             }
         return $items;
-        }}
+        }
+    }
 
-    
-        public function toArray(){
+    public function toArray(){
         $attributes = get_object_vars($this);
         $dataArray = array_values(array_slice($attributes, 2));
         $arrayResult = [];
